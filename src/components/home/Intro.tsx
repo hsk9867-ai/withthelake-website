@@ -34,10 +34,10 @@ export default function Intro() {
         overlay.current.style.opacity = String(intro);
         overlay.current.style.visibility = intro <= 0.001 ? "hidden" : "visible";
       }
-      if (mask.current) mask.current.style.transform = `scale(${1 + p * 6})`;
+      if (mask.current) mask.current.style.transform = `translate3d(0,0,0) scale(${(1 + p * 6).toFixed(2)})`;
       if (headline.current) {
         headline.current.style.opacity = String(text);
-        headline.current.style.transform = `translateY(${(1 - text) * 24}px)`;
+        headline.current.style.transform = `translate3d(0,${Math.round((1 - text) * 24)}px,0)`;
       }
       if (hint.current) hint.current.style.opacity = String(p > 0.9 ? 0 : 1);
     };
