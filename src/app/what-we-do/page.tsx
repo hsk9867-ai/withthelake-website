@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
-import Container from "@/components/Container";
+import PageHeader from "@/components/PageHeader";
 import WhatWeDo from "@/components/home/WhatWeDo";
+import ForOrganizations from "@/components/home/ForOrganizations";
 
 export const metadata: Metadata = {
-  title: "WHAT WE DO",
-  description: "SENIO, WITH WELL ME, COMMUNITY HEALTH — 세 가지 방식으로 건강을 연결합니다.",
+  title: "WHAT WE DO — SENIO · WITH WELL ME · COMMUNITY HEALTH",
+  description: "세 가지 방식으로 건강을 연결합니다. SENIO(디지털 헬스케어), WITH WELL ME(웰니스 브랜드), COMMUNITY HEALTH(오프라인 프로그램).",
 };
 
 export default function WhatWeDoPage() {
   return (
     <>
-      <section className="bg-primary py-20 text-white md:py-24">
-        <Container>
-          <p className="text-[13px] font-semibold tracking-[0.2em] text-accent">
-            WHAT WE DO
-          </p>
-          <h1 className="mt-4 max-w-xl text-[26px] font-extrabold leading-snug tracking-tight md:text-[34px]">
-            SENIO · WITH WELL ME · COMMUNITY HEALTH
-          </h1>
-        </Container>
-      </section>
-      <WhatWeDo />
+      <PageHeader
+        eyebrow="What We Do"
+        crumbs={[{ label: "WHAT WE DO" }]}
+        title="세 가지 방식으로 건강을 연결합니다"
+        lead="기술(SENIO), 웰니스(WITH WELL ME), 지역사회 프로그램(COMMUNITY HEALTH)이 측정 → 이해 → 행동 → 지속 → 변화 확인의 순환 안에서 하나로 이어집니다."
+      />
+      <WhatWeDo withHeading={false} />
+      <ForOrganizations />
     </>
   );
 }

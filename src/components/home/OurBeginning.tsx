@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Container from "@/components/Container";
 import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
 
 const LINES = [
   "㈜위드더레이크는 지역사회 시니어 건강 현장에서 출발한 예방건강관리 기업입니다.",
@@ -10,24 +12,47 @@ const LINES = [
 
 export default function OurBeginning() {
   return (
-    <section className="bg-surface py-24 md:py-32">
+    <section className="section bg-surface">
       <Container>
-        <Reveal>
-          <p className="text-[13px] font-semibold tracking-[0.2em] text-accent-dark">
-            OUR BEGINNING
-          </p>
-          <h2 className="mt-4 max-w-2xl text-[26px] font-extrabold leading-snug tracking-tight text-ink md:text-[34px]">
-            우리는 함께 걷는 현장에서 시작했습니다.
-          </h2>
-        </Reveal>
-        <div className="mt-10 max-w-2xl space-y-5 border-l-2 border-primary/20 pl-6">
-          {LINES.map((line, i) => (
-            <Reveal key={line} delay={i * 90}>
-              <p className="text-[16px] leading-8 text-muted md:text-[17px]">
-                {line}
+        <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+          <div>
+            <SectionHeading
+              index="02"
+              eyebrow="Our Beginning"
+              title="우리는 함께 걷는 현장에서 시작했습니다."
+            />
+            <div className="mt-10 space-y-6">
+              {LINES.map((line, i) => (
+                <Reveal key={line} delay={i * 90}>
+                  <p className="t-body-lg flex gap-5 text-ink-2">
+                    <span
+                      aria-hidden
+                      className="mt-[13px] h-px w-6 shrink-0 bg-accent-dark"
+                    />
+                    <span>{line}</span>
+                  </p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <Reveal delay={150} className="relative">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] lg:aspect-[5/6]">
+              <Image
+                src="/assets/activities/barefoot-2.jpg"
+                alt="지역 주민과 함께하는 맨발걷기 프로그램 현장"
+                fill
+                sizes="(min-width:1024px) 560px, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-6 -left-4 hidden rounded-2xl border border-line bg-white p-5 shadow-[0_24px_50px_-24px_rgba(23,22,28,0.35)] sm:block">
+              <p className="eyebrow text-accent-deep">Nature × Human × Science</p>
+              <p className="mt-2 text-[16px] font-semibold text-ink">
+                자연과 걷기에서 시작해, 데이터로 변화를 확인합니다
               </p>
-            </Reveal>
-          ))}
+            </div>
+          </Reveal>
         </div>
       </Container>
     </section>
