@@ -334,3 +334,49 @@ body {
     animation: none !important;
   }
 }
+
+/* ---------- HOME intro: 자동 재생 (스크롤 무관) ---------- */
+.intro-overlay {
+  animation: intro-fade 0.9s ease-in-out 1.7s forwards;
+  will-change: opacity;
+}
+@keyframes intro-fade {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.intro-mask {
+  animation: intro-zoom 1.3s cubic-bezier(0.7, 0, 0.3, 1) 1.5s forwards;
+}
+@keyframes intro-zoom {
+  to {
+    transform: scale(7);
+    opacity: 0;
+  }
+}
+.intro-headline {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
+}
+.intro-hint {
+  opacity: 0;
+  animation: intro-show 0.6s ease 2.8s forwards;
+}
+@keyframes intro-show {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-overlay {
+    display: none;
+  }
+  .intro-headline,
+  .intro-hint {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
