@@ -7,6 +7,8 @@ import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import Button from "@/components/Button";
 import { SITE } from "@/content/site";
+import ProductCard from "@/components/store/ProductCard";
+import { PRODUCTS, STORE_URL } from "@/content/products";
 
 export const metadata: Metadata = {
   title: "WITH WELL ME — 웰니스 브랜드",
@@ -15,9 +17,7 @@ export const metadata: Metadata = {
   robots: SITE.publish.withWellMe ? undefined : { index: false, follow: false },
 };
 
-/**
- * 5개 축 — 원고 확정 전 틀. 각 축의 desc·제품은 확정 후 입력합니다.
- */
+/** 5개 축 */
 const AXES = [
   { name: "EAT", ko: "먹기", desc: "강원도 자연원료 기반 식품과 식습관 루틴" },
   { name: "MOVE", ko: "움직이기", desc: "일상에서 이어가는 운동 루틴과 콘텐츠" },
@@ -70,26 +70,21 @@ export default function WithWellMePage() {
 
       <section className="section bg-cream">
         <Container>
-          <SectionHeading eyebrow="Products" title="제품 소개" lead="제품 정보가 확정되는 대로 순차적으로 공개합니다. 구매는 네이버 스마트스토어에서 안내해 드립니다." />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {AXES.slice(0, 3).map((axis, i) => (
-              <Reveal key={axis.name} delay={i * 90} className="card overflow-hidden">
-                <div className="bg-grid relative aspect-[4/3] bg-primary-light">
-                  <p className="absolute inset-0 flex items-center justify-center font-display text-[15px] font-semibold tracking-[0.2em] text-primary/50">
-                    COMING SOON
-                  </p>
-                </div>
-                <div className="p-6">
-                  <p className="t-meta font-semibold text-accent-deep">{axis.name}</p>
-                  <p className="mt-1 text-[17px] font-bold text-ink">제품 준비 중</p>
-                  <p className="t-body mt-2 text-muted">{axis.desc}</p>
-                </div>
+          <SectionHeading
+            eyebrow="Products"
+            title="제품 소개"
+            lead="위드웰미 풋케어 제품과 어싱 제품, 힐링로드ON 걷기 체험을 네이버 스마트스토어에서 구매하실 수 있습니다."
+          />
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {PRODUCTS.map((p, i) => (
+              <Reveal key={p.url} delay={i * 80}>
+                <ProductCard product={p} />
               </Reveal>
             ))}
           </div>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[20px] bg-white p-7">
             <p className="t-body text-ink-2">WITH WELL ME 제품은 네이버 스마트스토어에서 만나보실 수 있습니다.</p>
-            <Button href={SITE.links.store} variant="primary" external arrow>
+            <Button href={STORE_URL} variant="primary" external arrow>
               스토어 바로가기
             </Button>
           </div>

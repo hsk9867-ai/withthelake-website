@@ -149,6 +149,7 @@ export default function AboutPage() {
               <dl className="mt-5 divide-y divide-line">
                 {[
                   { label: "상호", value: `${SITE.name} (WITH THE LAKE Co., Ltd.)` },
+                  { label: "주소", value: `(${SITE.contact.postalCode}) ${SITE.contact.address}` },
                   { label: "담당", value: `${SITE.contact.team} ${SITE.contact.person}` },
                   { label: "전화", value: SITE.contact.phone },
                   { label: "이메일", value: SITE.contact.email },

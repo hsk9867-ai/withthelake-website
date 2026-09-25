@@ -15,14 +15,24 @@ export const SITE = {
     person: "김민주 과장",
     phone: "010-4629-5925",
     email: "contact@withthelake.com",
+    address: "강원특별자치도 춘천시 후석로462번길 7, 춘천 ICT혁신센터 206호",
+    postalCode: "24232",
   },
 
   links: {
-    /** 네이버 스마트스토어 URL — 확정 시 교체 */
-    store: "https://smartstore.naver.com",
+    /** 네이버 스마트스토어 (기존 withthelake.com/store 연동 주소) */
+    store: "https://smartstore.naver.com/withlab201",
     /** SENIO 앱 스토어 링크 — 출시 시 교체 (비어 있으면 문의 폼으로 연결) */
     appIos: "",
     appAndroid: "",
+    /** 힐링로드ON 맨발걷기 앱 "맨발루" */
+    menbalooIos: "https://apps.apple.com/kr/app/%EB%A7%A8%EB%B0%9C%EB%A3%A8/id6651824430",
+    menbalooAndroid: "https://play.google.com/store/apps/details?id=com.apppp.menbaloo",
+    /** 커뮤니티 · SNS */
+    cafe: "https://cafe.naver.com/healingroadon",
+    blog: "https://blog.naver.com/with_thelake",
+    instagram: "https://www.instagram.com/withwellme/",
+    youtube: "https://www.youtube.com/channel/UC8vmE6swgfF-PvsVIQUmsOQ",
   },
 
   /** HOME HERO 영상 (기획서: 현재 영상 활용). 파일을 public/assets/video/에 두고 경로를 지정하면 이미지 대신 재생됩니다. */

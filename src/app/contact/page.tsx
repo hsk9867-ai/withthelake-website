@@ -49,6 +49,9 @@ export default function ContactPage() {
                 <p className="mt-3 text-[16px] font-semibold text-ink">
                   {SITE.name} {SITE.contact.team} {SITE.contact.person}
                 </p>
+                <p className="mt-2 text-[15px] leading-6 text-muted">
+                  ({SITE.contact.postalCode}) {SITE.contact.address}
+                </p>
                 <div className="mt-4 flex flex-col gap-3">
                   <a href={`tel:${SITE.contact.phone}`} className="inline-flex items-center gap-3 text-[16px] text-ink-2 hover:text-primary">
                     <IconPhone className="text-primary" /> {SITE.contact.phone}

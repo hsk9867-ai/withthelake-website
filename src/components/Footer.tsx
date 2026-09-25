@@ -2,7 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import Container from "./Container";
 import { SITE } from "@/content/site";
-import { IconMail, IconPhone } from "./Icons";
+import { IconExternal, IconMail, IconPhone } from "./Icons";
+
+const SOCIAL = [
+  { label: "네이버 카페 힐링로드ON", href: SITE.links.cafe },
+  { label: "네이버 블로그", href: SITE.links.blog },
+  { label: "인스타그램", href: SITE.links.instagram },
+  { label: "유튜브", href: SITE.links.youtube },
+];
 
 const COLUMNS = [
   {
@@ -48,7 +55,10 @@ export default function Footer() {
               데이터와 건강행동을 연결해 시니어의 건강한 자립생활이 더 오래 지속되도록 돕는
               지역사회 기반 예방건강관리 기업
             </p>
-            <div className="mt-8 flex flex-col gap-3">
+            <p className="mt-6 text-[15px] leading-6 text-white/60">
+              ({SITE.contact.postalCode}) {SITE.contact.address}
+            </p>
+            <div className="mt-6 flex flex-col gap-3">
               <a href={`tel:${SITE.contact.phone}`} className="inline-flex items-center gap-3 text-white/85 hover:text-white">
                 <IconPhone className="text-accent" />
                 <span className="t-meta">{SITE.contact.phone}</span>
@@ -60,7 +70,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <p className="eyebrow text-accent">{col.title}</p>
@@ -75,6 +85,18 @@ export default function Footer() {
                 </ul>
               </div>
             ))}
+            <div>
+              <p className="eyebrow text-accent">COMMUNITY</p>
+              <ul className="mt-5 space-y-3">
+                {SOCIAL.map((l) => (
+                  <li key={l.href}>
+                    <a href={l.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-[16px] text-white/80 transition-colors hover:text-white">
+                      {l.label} <IconExternal size={13} className="text-white/40" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 

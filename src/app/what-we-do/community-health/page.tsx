@@ -82,6 +82,23 @@ export default function CommunityHealthPage() {
                 <p className="eyebrow text-accent-deep">{LEADER_TRAINING.title}</p>
                 <p className="t-body mt-3 text-ink-2">{LEADER_TRAINING.body}</p>
               </div>
+              <div className="mt-4 rounded-[20px] bg-white p-6">
+                <p className="eyebrow text-accent-deep">함께 걷기</p>
+                <p className="t-body mt-3 text-ink-2">
+                  맨발걷기 앱 &lsquo;맨발루&rsquo;로 걷기 기록을 남기고, 네이버 카페 힐링로드ON에서 지역 걷기 모임 소식을 확인하세요.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  <Button href={SITE.links.menbalooIos} variant="secondary" size="sm" external>
+                    App Store
+                  </Button>
+                  <Button href={SITE.links.menbalooAndroid} variant="secondary" size="sm" external>
+                    Google Play
+                  </Button>
+                  <Button href={SITE.links.cafe} variant="secondary" size="sm" external>
+                    네이버 카페 힐링로드ON
+                  </Button>
+                </div>
+              </div>
             </div>
             <Reveal delay={100} className="grid grid-cols-2 gap-3">
               {HEALING_ROAD_PHOTOS.map((src, i) => (
