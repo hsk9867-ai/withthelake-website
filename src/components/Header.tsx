@@ -105,7 +105,7 @@ export default function Header() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-          transparent ? "bg-transparent" : "bg-navy"
+          transparent ? "bg-transparent" : "bg-navy/95 backdrop-blur-md"
         }`}
       >
         <div className="mx-auto flex h-[72px] w-full max-w-[1400px] items-center justify-between px-5 sm:px-8 md:px-10">
