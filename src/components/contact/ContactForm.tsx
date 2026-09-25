@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { SITE, asset } from "@/content/site";
 
 export const INQUIRY_TYPES = [
   "사업·협력",
@@ -66,13 +67,33 @@ export default function ContactForm() {
       website: data.get("website"), // honeypot
     };
 
+    // 정적 호스팅(GitHub Pages 등)에서는 API 가 없으므로 메일 앱으로 내용을 전달합니다.
+    const fallbackMailto = () => {
+      const lines = [
+        `문의 유형: ${payload.inquiryType}`,
+        `회사명: ${payload.company}`,
+        `부서/직책: ${payload.department || "-"} / ${payload.position || "-"}`,
+        `담당자: ${payload.name}`,
+        `연락처: ${payload.phone}`,
+        `이메일: ${payload.email}`,
+        "",
+        String(payload.message ?? ""),
+      ];
+      const url = `mailto:${SITE.contact.email}?subject=${encodeURIComponent(`[홈페이지 문의] ${payload.inquiryType} · ${payload.company}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
+      window.location.href = url;
+      setStatus("success");
+      form.reset();
+    };
+
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(asset("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = await res.json();
+      if (res.status === 404 || res.status === 405) return fallbackMailto();
+      const result = await res.json().catch(() => null);
+      if (!result) return fallbackMailto();
 
       if (!res.ok || !result.ok) {
         setErrorMessage(result.error ?? "문의 접수 중 오류가 발생했습니다.");
@@ -83,8 +104,7 @@ export default function ContactForm() {
       setStatus("success");
       form.reset();
     } catch {
-      setErrorMessage("네트워크 오류로 접수하지 못했습니다. 잠시 후 다시 시도해 주세요.");
-      setStatus("error");
+      fallbackMailto();
     }
   }
 

@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { SITE } from "@/content/site";
+import { SITE, asset } from "@/content/site";
 
 /**
  * 레퍼런스의 인트로 → 풀블리드 영상 전환.
@@ -59,8 +60,8 @@ export default function Intro() {
         {/* 배경 사진/영상 */}
         <div className="absolute inset-0">
           {SITE.heroVideo ? (
-            <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster={SITE.heroPoster} aria-hidden>
-              <source src={SITE.heroVideo} />
+            <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster={asset(SITE.heroPoster)} aria-hidden>
+              <source src={asset(SITE.heroVideo)} />
             </video>
           ) : (
             <Image src={SITE.heroPoster} alt="" fill priority sizes="100vw" className="object-cover" />
@@ -81,12 +82,12 @@ export default function Intro() {
               예방건강관리 기업입니다.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="/contact" className="inline-flex min-h-12 items-center justify-center rounded-md bg-primary px-7 text-[16px] font-bold text-white transition-colors hover:bg-primary-dark">
+              <Link href="/contact" className="inline-flex min-h-12 items-center justify-center rounded-md bg-primary px-7 text-[16px] font-bold text-white transition-colors hover:bg-primary-dark">
                 사업·협력 문의
-              </a>
-              <a href="/about" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/70 px-7 text-[16px] font-bold text-white transition-colors hover:bg-white/10">
+              </Link>
+              <Link href="/about" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/70 px-7 text-[16px] font-bold text-white transition-colors hover:bg-white/10">
                 위드더레이크 알아보기
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -99,8 +100,8 @@ export default function Intro() {
               aria-hidden
               className="absolute inset-0"
               style={{
-                WebkitMaskImage: "url(/assets/logo/with-the-lake-icon.png)",
-                maskImage: "url(/assets/logo/with-the-lake-icon.png)",
+                WebkitMaskImage: `url(${asset("/assets/logo/with-the-lake-icon.png")})`,
+                maskImage: `url(${asset("/assets/logo/with-the-lake-icon.png")})`,
                 WebkitMaskSize: "contain",
                 maskSize: "contain",
                 WebkitMaskRepeat: "no-repeat",

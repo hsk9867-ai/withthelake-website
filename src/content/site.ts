@@ -1,3 +1,7 @@
+/** 정적 배포(GitHub Pages) 시 하위 경로. next/image 와 Link 는 자동 처리되므로 raw URL 에만 붙입니다. */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const asset = (path: string) => `${BASE_PATH}${path}`;
+
 /**
  * 사이트 전역 설정.
  * 링크·연락처·외부 서비스 ID처럼 자주 바뀌는 값은 이 파일에서만 수정합니다.
