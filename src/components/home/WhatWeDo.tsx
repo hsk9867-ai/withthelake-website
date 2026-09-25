@@ -3,10 +3,13 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import Button from "@/components/Button";
 import Reveal from "@/components/Reveal";
-import SectionHeading from "@/components/SectionHeading";
 import { SITE } from "@/content/site";
 import { IconArrow } from "@/components/Icons";
 
+/**
+ * 레퍼런스 "Our Products" — 세로 패널 이미지 콜라주 위에 큰 흰 타이틀.
+ * 기획서 05 WHAT WE DO 의 세 사업을 패널로 두고, 아래에 원고 카드를 이어 붙입니다.
+ */
 type Biz = {
   name: string;
   kind: string;
@@ -15,7 +18,6 @@ type Biz = {
   pills: string[];
   image: string;
   imageAlt: string;
-  imageFit: "contain" | "cover";
   href?: string;
   actions: { label: string; href: string; variant: "primary" | "secondary"; external?: boolean }[];
 };
@@ -27,9 +29,8 @@ const BUSINESSES: Biz[] = [
     tag: "건강을 이해하는 기술",
     body: "소변 기반 생체데이터와 걷기·운동 등 생활데이터를 연결하는 디지털 헬스케어 솔루션입니다. 비의료 인력도 3분 안에 7종 지표를 측정하고 기록할 수 있습니다.",
     pills: ["Strip", "Lens", "Care"],
-    image: "/assets/senio/device-front.png",
-    imageAlt: "SENIO Lens 측정기",
-    imageFit: "contain",
+    image: "/assets/senio/device-styled.jpg",
+    imageAlt: "SENIO 앱과 측정기",
     href: "/senio",
     actions: [
       { label: "자세히 보기", href: "/senio", variant: "primary" },
@@ -44,13 +45,10 @@ const BUSINESSES: Biz[] = [
     pills: ["EAT", "MOVE", "WALK", "CARE", "RECOVER"],
     image: "/assets/stock/barefoot-trail.jpg",
     imageAlt: "숲길을 맨발로 걷는 모습",
-    imageFit: "cover",
     href: SITE.publish.withWellMe ? "/what-we-do/with-well-me" : undefined,
     actions: [
       { label: "스토어 바로가기", href: SITE.links.store, variant: "primary", external: true },
-      ...(SITE.publish.withWellMe
-        ? [{ label: "자세히 보기", href: "/what-we-do/with-well-me", variant: "secondary" as const }]
-        : []),
+      ...(SITE.publish.withWellMe ? [{ label: "자세히 보기", href: "/what-we-do/with-well-me", variant: "secondary" as const }] : []),
     ],
   },
   {
@@ -61,60 +59,71 @@ const BUSINESSES: Biz[] = [
     pills: ["걷기", "운동", "노쇠 예방", "생활습관", "마음건강"],
     image: "/assets/activities/barefoot-7.jpg",
     imageAlt: "지역 주민과 함께하는 맨발걷기 프로그램",
-    imageFit: "cover",
     href: SITE.publish.communityHealth ? "/what-we-do/community-health" : undefined,
     actions: [
       { label: "프로그램 문의", href: "/contact?type=program", variant: "primary" },
-      ...(SITE.publish.communityHealth
-        ? [{ label: "자세히 보기", href: "/what-we-do/community-health", variant: "secondary" as const }]
-        : []),
+      ...(SITE.publish.communityHealth ? [{ label: "자세히 보기", href: "/what-we-do/community-health", variant: "secondary" as const }] : []),
     ],
   },
 ];
 
-export default function WhatWeDo({ index = "05", withHeading = true }: { index?: string; withHeading?: boolean }) {
+export function WhatWeDoPanels() {
   return (
-    <section className="section bg-cream">
-      <Container>
+    <section className="relative bg-black text-white" aria-label="What We Do">
+      <div className="grid h-[70vh] min-h-[520px] grid-cols-3">
+        {BUSINESSES.map((b, i) => {
+          const inner = (
+            <>
+              <Image src={b.image} alt={b.imageAlt} fill sizes="34vw" className="object-cover opacity-80 transition-[transform,opacity] duration-700 group-hover:scale-[1.04] group-hover:opacity-100" />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
+                <p className="t-meta text-accent">{b.kind}</p>
+                <p className="font-display mt-1 text-[clamp(16px,2vw,26px)] font-extrabold tracking-tight">{b.name}</p>
+              </div>
+            </>
+          );
+          return b.href ? (
+            <Link key={b.name} href={b.href} className={`group relative overflow-hidden ${i === 1 ? "mt-[6vh]" : i === 2 ? "mt-[12vh]" : ""}`}>
+              {inner}
+            </Link>
+          ) : (
+            <div key={b.name} className={`group relative overflow-hidden ${i === 1 ? "mt-[6vh]" : i === 2 ? "mt-[12vh]" : ""}`}>
+              {inner}
+            </div>
+          );
+        })}
+      </div>
+      <h2 className="t-display pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 px-5 text-center text-[clamp(44px,9vw,128px)] font-extrabold tracking-tight text-white drop-shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        What We Do
+      </h2>
+    </section>
+  );
+}
+
+export default function WhatWeDo({ withHeading = true }: { index?: string; withHeading?: boolean }) {
+  return (
+    <section className="section bg-surface">
+      <Container size="wide">
         {withHeading && (
-          <SectionHeading
-            index={index}
-            eyebrow="What We Do"
-            title="세 가지 방식으로 건강을 연결합니다"
-            lead="기술·데이터·웰니스·지역사회를 하나의 흐름으로 연결해, 시니어가 자신의 건강을 이해하고 건강한 행동을 지속하도록 돕습니다."
-          />
+          <Reveal className="text-center">
+            <h2 className="t-h2 text-ink">세 가지 방식으로 건강을 연결합니다</h2>
+            <p className="t-lead mx-auto mt-4 max-w-2xl text-muted">
+              기술·데이터·웰니스·지역사회를 하나의 흐름으로 연결해, 시니어가 자신의 건강을 이해하고 건강한 행동을 지속하도록 돕습니다.
+            </p>
+          </Reveal>
         )}
 
         <div className={`grid gap-6 lg:grid-cols-3 ${withHeading ? "mt-14" : ""}`}>
           {BUSINESSES.map((biz, i) => (
-            <Reveal
-              key={biz.name}
-              delay={i * 120}
-              className="card card-hover group flex flex-col overflow-hidden"
-            >
-              <div
-                className={`relative h-56 overflow-hidden ${
-                  biz.imageFit === "contain" ? "bg-grid bg-primary-light" : ""
-                }`}
-              >
-                <Image
-                  src={biz.image}
-                  alt={biz.imageAlt}
-                  fill
-                  sizes="(min-width:1024px) 400px, 100vw"
-                  className={
-                    biz.imageFit === "contain"
-                      ? "object-contain p-7 transition-transform duration-700 group-hover:scale-[1.04]"
-                      : "object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  }
-                />
-                <span className="t-meta absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-[13px] font-semibold text-primary backdrop-blur">
+            <Reveal key={biz.name} delay={i * 120} className="card card-hover group flex flex-col overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
+                <Image src={biz.image} alt={biz.imageAlt} fill sizes="(min-width:1024px) 440px, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+                <span className="t-meta absolute left-5 top-5 rounded-md bg-white/90 px-3 py-1 text-[13px] font-bold text-primary backdrop-blur">
                   {biz.kind}
                 </span>
               </div>
-
               <div className="flex flex-1 flex-col p-8">
-                <h3 className="font-display text-[22px] font-bold tracking-tight text-primary">
+                <h3 className="font-display text-[24px] font-extrabold tracking-tight text-primary">
                   {biz.href ? (
                     <Link href={biz.href} className="inline-flex items-center gap-2 hover:underline">
                       {biz.name}
@@ -128,23 +137,14 @@ export default function WhatWeDo({ index = "05", withHeading = true }: { index?:
                 <p className="t-body mt-4 flex-1 text-muted">{biz.body}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {biz.pills.map((pill) => (
-                    <span
-                      key={pill}
-                      className="t-meta rounded-full bg-accent-light px-3 py-1 text-[13px] font-semibold text-accent-deep"
-                    >
+                    <span key={pill} className="t-meta rounded-md border border-primary/25 px-3 py-1 text-[13px] font-bold text-primary">
                       {pill}
                     </span>
                   ))}
                 </div>
                 <div className="mt-7 flex flex-wrap gap-2.5">
                   {biz.actions.map((action) => (
-                    <Button
-                      key={action.label}
-                      href={action.href}
-                      variant={action.variant}
-                      size="sm"
-                      external={action.external}
-                    >
+                    <Button key={action.label} href={action.href} variant={action.variant} size="sm" external={action.external}>
                       {action.label}
                     </Button>
                   ))}

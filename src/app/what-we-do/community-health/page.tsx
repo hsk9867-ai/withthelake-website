@@ -40,10 +40,10 @@ export default function CommunityHealthPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Community Health · Program"
+        eyebrow="Community Health"
         crumbs={[{ label: "WHAT WE DO", href: "/what-we-do" }, { label: "COMMUNITY HEALTH" }]}
-        title="현장에서 함께 만드는 예방건강관리"
-        lead="지자체·복지기관·기업과 함께 걷기, 운동, 노쇠 예방, 생활습관, 마음건강 프로그램을 운영합니다. 프로그램에서 쌓인 기록은 SENIO와 연결되어 변화를 확인하는 근거가 됩니다."
+        title="건강 프로그램"
+        lead="현장에서 함께 만드는 예방건강관리. 지자체·복지기관·기업과 함께 걷기, 운동, 노쇠 예방, 생활습관, 마음건강 프로그램을 운영합니다. 프로그램에서 쌓인 기록은 SENIO와 연결되어 변화를 확인하는 근거가 됩니다."
         image="/assets/activities/barefoot-2.jpg"
         imageAlt="지역 주민과 함께하는 맨발걷기 프로그램"
       >

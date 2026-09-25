@@ -17,10 +17,10 @@ export default function StorePage() {
   return (
     <>
       <PageHeader
-        eyebrow="Store · WITH WELL ME 마켓"
+        eyebrow="Store"
         crumbs={[{ label: "STORE" }]}
-        title="맨발걷기와 셀프케어를 위한 제품"
-        lead="위드웰미 풋케어, 어싱 제품, 힐링로드ON 걷기 체험을 네이버 스마트스토어에서 구매하실 수 있습니다. 제품을 누르면 스마트스토어 상품 페이지로 이동합니다."
+        title="스토어"
+        lead="맨발걷기와 셀프케어를 위한 제품. 위드웰미 풋케어, 어싱 제품, 힐링로드ON 걷기 체험을 네이버 스마트스토어에서 구매하실 수 있습니다. 제품을 누르면 스마트스토어 상품 페이지로 이동합니다."
       >
         <div className="flex flex-wrap gap-3">
           <Button href={STORE_URL} variant="primary" size="lg" external arrow>

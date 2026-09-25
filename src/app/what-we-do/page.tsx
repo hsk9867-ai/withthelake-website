@@ -14,8 +14,8 @@ export default function WhatWeDoPage() {
       <PageHeader
         eyebrow="What We Do"
         crumbs={[{ label: "WHAT WE DO" }]}
-        title="세 가지 방식으로 건강을 연결합니다"
-        lead="기술(SENIO), 웰니스(WITH WELL ME), 지역사회 프로그램(COMMUNITY HEALTH)이 측정 → 이해 → 행동 → 지속 → 변화 확인의 순환 안에서 하나로 이어집니다."
+        title="사업소개"
+        lead="세 가지 방식으로 건강을 연결합니다. 기술(SENIO), 웰니스(WITH WELL ME), 지역사회 프로그램(COMMUNITY HEALTH)이 측정 → 이해 → 행동 → 지속 → 변화 확인의 순환 안에서 하나로 이어집니다."
       />
       <WhatWeDo withHeading={false} />
       <ForOrganizations />

@@ -50,7 +50,7 @@ const SECTIONS = [
 export default function PrivacyPage() {
   return (
     <>
-      <PageHeader eyebrow="Privacy Policy" crumbs={[{ label: "개인정보 처리방침" }]} title="개인정보 처리방침" />
+      <PageHeader eyebrow="Privacy Policy" crumbs={[{ label: "개인정보 처리방침" }]} title="개인정보 처리방침" lead="㈜위드더레이크가 수집하는 개인정보의 항목, 목적, 보유 기간과 이용자의 권리를 안내합니다." />
       <section className="section bg-surface">
         <Container size="narrow">
           <div className="space-y-10">

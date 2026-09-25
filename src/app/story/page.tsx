@@ -16,8 +16,8 @@ export default function StoryPage() {
       <PageHeader
         eyebrow="Story"
         crumbs={[{ label: "STORY" }]}
-        title="현장에서 만드는 건강한 변화"
-        lead="맨발걷기 정보, 힐링로드ON 프로그램 소식, 회사 NEWS를 카테고리로 나누어 전합니다."
+        title="스토리"
+        lead="현장에서 만드는 건강한 변화. 맨발걷기 정보, 힐링로드ON 프로그램 소식, 회사 NEWS를 카테고리로 나누어 전합니다."
       />
       <section className="section bg-surface">
         <Container>

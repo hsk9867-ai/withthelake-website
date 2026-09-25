@@ -3,216 +3,203 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import Container from "./Container";
-import { NAV, SITE } from "@/content/site";
+import { useEffect, useState } from "react";
+import { SITE } from "@/content/site";
 
-function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(href + "/");
-}
+/**
+ * 레퍼런스 스타일 헤더:
+ * - 홈 상단에서는 투명(흰 로고), 스크롤하면 네이비 바
+ * - 서브페이지는 항상 네이비 바
+ * - 우측: CONTACT 링크 + 햄버거 → 전체화면 사이트맵 메뉴
+ */
+const MENU = [
+  {
+    title: "ABOUT",
+    href: "/about",
+    links: [
+      { label: "회사소개", href: "/about" },
+      { label: "Nature × Human × Science", href: "/about#identity" },
+    ],
+  },
+  {
+    title: "WHAT WE DO",
+    href: "/what-we-do",
+    links: [
+      { label: "SENIO", href: "/senio" },
+      ...(SITE.publish.withWellMe ? [{ label: "WITH WELL ME", href: "/what-we-do/with-well-me" }] : []),
+      ...(SITE.publish.communityHealth ? [{ label: "COMMUNITY HEALTH", href: "/what-we-do/community-health" }] : []),
+    ],
+  },
+  {
+    title: "IMPACT",
+    href: "/impact",
+    links: [
+      { label: "주요 프로젝트", href: "/impact#projects" },
+      { label: "실증 현황", href: "/impact#pilots" },
+      { label: "R&D · 지식재산", href: "/impact#rnd" },
+      { label: "인증 · 수상 · 선정", href: "/impact#awards" },
+      { label: "파트너", href: "/impact#partners" },
+      { label: "연혁", href: "/impact#history" },
+    ],
+  },
+  {
+    title: "STORY",
+    href: "/story",
+    links: [
+      { label: "맨발걷기 정보", href: "/story?category=맨발걷기 정보" },
+      { label: "힐링로드ON", href: "/story?category=힐링로드ON" },
+      { label: "NEWS", href: "/story?category=NEWS" },
+    ],
+  },
+  {
+    title: "STORE",
+    href: "/store",
+    links: [{ label: "네이버 스마트스토어", href: SITE.links.store, external: true }],
+  },
+  {
+    title: "CONTACT",
+    href: "/contact",
+    links: [
+      { label: "문의하기", href: "/contact" },
+      { label: "개인정보 처리방침", href: "/privacy" },
+    ],
+  },
+];
 
 export default function Header() {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
-  const [openSub, setOpenSub] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 경로가 바뀌면 열린 메뉴를 닫는다 (렌더 중 상태 조정 패턴)
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
     setOpen(false);
-    setOpenSub(null);
   }
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const visibleNav = NAV.map((item) => {
-    if (!("children" in item)) return item;
-    return {
-      ...item,
-      children: item.children.filter((c) => {
-        if (c.href === "/what-we-do/with-well-me") return SITE.publish.withWellMe;
-        if (c.href === "/what-we-do/community-health") return SITE.publish.communityHealth;
-        return true;
-      }),
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
     };
-  });
+  }, [open]);
 
-  const senioActive = pathname.startsWith("/senio");
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const transparent = isHome && !scrolled && !open;
 
   return (
-    <header
-      className={`sticky top-0 z-50 border-b bg-white/92 backdrop-blur-md transition-[box-shadow,border-color] ${
-        scrolled ? "border-line shadow-[0_8px_30px_-20px_rgba(23,22,28,0.35)]" : "border-transparent"
-      }`}
-    >
-      <Container size="wide" className="flex h-[76px] items-center justify-between gap-6">
-        <Link href="/" className="flex shrink-0 items-center" aria-label="위드더레이크 홈">
-          <Image
-            src="/assets/logo/with-the-lake.png"
-            alt="WITH THE LAKE"
-            width={178}
-            height={58}
-            priority
-            className="h-9 w-auto md:h-10"
-          />
-        </Link>
-
-        {/* Desktop nav */}
-        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 lg:flex">
-          {visibleNav.map((item) => {
-            const active =
-              isActive(pathname, item.href) || (item.href === "/what-we-do" && senioActive);
-            const hasChildren = "children" in item && item.children.length > 0;
-
-            return (
-              <div
-                key={item.href}
-                className="relative"
-                onMouseEnter={() => {
-                  if (closeTimer.current) clearTimeout(closeTimer.current);
-                  if (hasChildren) setOpenSub(item.href);
-                }}
-                onMouseLeave={() => {
-                  closeTimer.current = setTimeout(() => setOpenSub(null), 120);
-                }}
-              >
-                <Link
-                  href={item.href}
-                  aria-haspopup={hasChildren ? "menu" : undefined}
-                  aria-expanded={hasChildren ? openSub === item.href : undefined}
-                  onFocus={() => hasChildren && setOpenSub(item.href)}
-                  className={`t-meta relative inline-flex min-h-11 items-center gap-1.5 rounded-full px-4 font-semibold transition-colors ${
-                    active ? "text-primary" : "text-ink hover:text-primary"
-                  }`}
-                >
-                  {item.label}
-                  {hasChildren && (
-                    <svg aria-hidden width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="m2.5 4.5 3.5 3.5 3.5-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                  <span
-                    aria-hidden
-                    className={`absolute inset-x-4 -bottom-0.5 h-[2px] rounded-full bg-primary transition-opacity ${
-                      active ? "opacity-100" : "opacity-0"
-                    }`}
-                  />
-                </Link>
-
-                {hasChildren && (
-                  <div
-                    role="menu"
-                    className={`absolute left-0 top-full pt-2 transition-[opacity,transform] duration-150 ${
-                      openSub === item.href
-                        ? "pointer-events-auto translate-y-0 opacity-100"
-                        : "pointer-events-none -translate-y-1 opacity-0"
-                    }`}
-                    onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpenSub(null);
-                    }}
-                  >
-                    <div className="w-[300px] rounded-2xl border border-line bg-white p-2 shadow-[0_24px_50px_-24px_rgba(23,22,28,0.35)]">
-                      {item.children.map((c) => (
-                        <Link
-                          key={c.href}
-                          href={c.href}
-                          role="menuitem"
-                          className={`flex items-baseline justify-between gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-primary-light ${
-                            isActive(pathname, c.href) ? "bg-primary-light" : ""
-                          }`}
-                        >
-                          <span className="t-meta font-semibold text-ink">{c.label}</span>
-                          <span className="text-[14px] text-muted">{c.desc}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-
-        <div className="hidden lg:block">
-          <Link
-            href="/contact"
-            className="t-meta inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 font-semibold text-white transition-colors hover:bg-primary-dark"
-          >
-            CONTACT US
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+          transparent ? "bg-transparent" : "bg-navy/95 backdrop-blur-md"
+        }`}
+      >
+        <div className="mx-auto flex h-[72px] w-full max-w-[1400px] items-center justify-between px-5 sm:px-8 md:px-10">
+          <Link href="/" className="flex shrink-0 items-center" aria-label="위드더레이크 홈">
+            <Image
+              src="/assets/logo/with-the-lake-white.png"
+              alt="WITH THE LAKE"
+              width={1780}
+              height={580}
+              priority
+              className="h-9 w-auto md:h-10"
+            />
           </Link>
-        </div>
 
-        {/* Mobile toggle */}
-        <button
-          type="button"
-          aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-line lg:hidden"
-        >
-          <div className="flex flex-col gap-[5px]">
-            <span className={`h-[2px] w-5 bg-ink transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`h-[2px] w-5 bg-ink transition-opacity ${open ? "opacity-0" : ""}`} />
-            <span className={`h-[2px] w-5 bg-ink transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
-          </div>
-        </button>
-      </Container>
-
-      {/* Mobile menu */}
-      {open && (
-        <div id="mobile-menu" className="max-h-[calc(100vh-76px)] overflow-y-auto border-t border-line bg-white lg:hidden">
-          <Container className="flex flex-col py-3">
-            {visibleNav.map((item) => {
-              const hasChildren = "children" in item && item.children.length > 0;
-              return (
-                <div key={item.href} className="border-b border-line/70 last:border-0">
-                  <Link
-                    href={item.href}
-                    className={`t-meta flex min-h-14 items-center px-2 text-[16px] font-semibold ${
-                      isActive(pathname, item.href) ? "text-primary" : "text-ink"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                  {hasChildren && (
-                    <div className="mb-2 flex flex-col">
-                      {item.children.map((c) => (
-                        <Link
-                          key={c.href}
-                          href={c.href}
-                          className={`flex min-h-12 items-center gap-3 rounded-xl px-4 text-[16px] ${
-                            isActive(pathname, c.href) ? "bg-primary-light text-primary" : "text-ink-2"
-                          }`}
-                        >
-                          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-                          {c.label}
-                          <span className="ml-auto text-[14px] text-muted">{c.desc}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          <div className="flex items-center gap-2 md:gap-5">
             <Link
               href="/contact"
-              className="mt-4 flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-[16px] font-semibold text-white"
+              className="t-meta hidden min-h-11 items-center font-bold text-white/90 transition-colors hover:text-white md:inline-flex"
             >
-              CONTACT US
+              CONTACT
             </Link>
-          </Container>
+            <button
+              type="button"
+              aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
+              aria-expanded={open}
+              aria-controls="site-menu"
+              onClick={() => setOpen((v) => !v)}
+              className="flex h-11 w-11 items-center justify-center rounded-md text-white"
+            >
+              <div className="flex flex-col gap-[6px]">
+                <span className={`h-[2px] w-6 bg-white transition-transform ${open ? "translate-y-[8px] rotate-45" : ""}`} />
+                <span className={`h-[2px] w-6 bg-white transition-opacity ${open ? "opacity-0" : ""}`} />
+                <span className={`h-[2px] w-6 bg-white transition-transform ${open ? "-translate-y-[8px] -rotate-45" : ""}`} />
+              </div>
+            </button>
+          </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Fullscreen menu */}
+      <div
+        id="site-menu"
+        aria-hidden={!open}
+        className={`fixed inset-0 z-40 bg-navy text-white transition-[opacity,visibility] duration-300 ${
+          open ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col px-5 pb-10 pt-[100px] sm:px-8 md:px-10">
+          <nav aria-label="전체 메뉴" className="flex-1 overflow-y-auto">
+            <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-6">
+              {MENU.map((group, gi) => (
+                <li
+                  key={group.title}
+                  className={`transition-[opacity,transform] duration-500 ${open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+                  style={{ transitionDelay: open ? `${80 + gi * 60}ms` : "0ms" }}
+                >
+                  <Link href={group.href} className="t-en text-[24px] hover:text-accent" onClick={() => setOpen(false)}>
+                    {group.title}
+                  </Link>
+                  <ul className="mt-5 space-y-3">
+                    {group.links.map((l) =>
+                      "external" in l && l.external ? (
+                        <li key={l.href}>
+                          <a href={l.href} target="_blank" rel="noreferrer" className="text-[16px] text-white/70 hover:text-white">
+                            {l.label}
+                          </a>
+                        </li>
+                      ) : (
+                        <li key={l.href}>
+                          <Link href={l.href} className="text-[16px] text-white/70 hover:text-white" onClick={() => setOpen(false)}>
+                            {l.label}
+                          </Link>
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-[15px] text-white/60 md:flex-row md:items-center md:justify-between">
+            <p>
+              {SITE.name} · {SITE.contact.phone} · {SITE.contact.email}
+            </p>
+            <div className="flex gap-5">
+              <a href={SITE.links.cafe} target="_blank" rel="noreferrer" className="hover:text-white">힐링로드ON 카페</a>
+              <a href={SITE.links.blog} target="_blank" rel="noreferrer" className="hover:text-white">블로그</a>
+              <a href={SITE.links.instagram} target="_blank" rel="noreferrer" className="hover:text-white">Instagram</a>
+              <a href={SITE.links.youtube} target="_blank" rel="noreferrer" className="hover:text-white">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

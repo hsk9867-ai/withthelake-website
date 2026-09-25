@@ -11,7 +11,7 @@ const STATS = [
 
 export default function SenioHero() {
   return (
-    <section className="relative overflow-hidden bg-primary-dark text-white">
+    <section className="relative overflow-hidden bg-navy pt-[72px] text-white">
       <div aria-hidden className="bg-grid absolute inset-0 opacity-[0.35]" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px)" }} />
       <div
         aria-hidden
@@ -52,7 +52,7 @@ export default function SenioHero() {
               </Button>
             </div>
 
-            <dl className="mt-12 grid max-w-xl grid-cols-3 gap-px animate-fade-up overflow-hidden rounded-2xl border border-white/15 bg-white/15" style={{ animationDelay: "480ms" }}>
+            <dl className="mt-12 grid max-w-xl grid-cols-1 gap-px animate-fade-up overflow-hidden rounded-[10px] border border-white/15 bg-white/15 sm:grid-cols-3" style={{ animationDelay: "480ms" }}>
               {STATS.map((s) => (
                 <div key={s.label} className="bg-primary-dark/80 px-5 py-5">
                   <dd className="t-stat text-accent">{s.value}</dd>

@@ -35,7 +35,7 @@ export default async function StoryDetailPage({ params }: PageProps<"/story/[slu
 
   return (
     <>
-      <section className="border-b border-line bg-cream">
+      <section className="border-b border-line bg-cream pt-[72px]">
         <Container size="narrow" className="py-14 md:py-20">
           <nav aria-label="breadcrumb" className="t-meta flex flex-wrap items-center gap-2 text-muted">
             <Link href="/" className="hover:text-primary">HOME</Link>

@@ -32,10 +32,10 @@ export default function WithWellMePage() {
   return (
     <>
       <PageHeader
-        eyebrow="With Well Me · Wellness Brand"
+        eyebrow="With Well Me"
         crumbs={[{ label: "WHAT WE DO", href: "/what-we-do" }, { label: "WITH WELL ME" }]}
-        title="건강한 행동을 일상으로"
-        lead="걷기, 운동, 건강 루틴, 콘텐츠, 셀프케어 제품을 통해 건강한 생활습관이 지속되도록 돕는 웰니스 브랜드입니다. 강원도 자연원료 기반 셀프케어 제품과 건강 루틴·콘텐츠를 준비하고 있습니다."
+        title="위드웰미"
+        lead="건강한 행동을 일상으로. 걷기, 운동, 건강 루틴, 콘텐츠, 셀프케어 제품을 통해 건강한 생활습관이 지속되도록 돕는 웰니스 브랜드입니다. 강원도 자연원료 기반 셀프케어 제품과 건강 루틴·콘텐츠를 준비하고 있습니다."
         image="/assets/stock/barefoot-trail.jpg"
         imageAlt="숲길을 맨발로 걷는 모습"
       >

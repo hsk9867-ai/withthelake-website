@@ -41,7 +41,7 @@ export default function ImpactPage() {
       <PageHeader
         eyebrow="Impact & Proof"
         crumbs={[{ label: "IMPACT" }]}
-        title="현장에서 검증하며 쌓아온 신뢰"
+        title="성과"
         lead="프로젝트, 실증, 연구개발, 인증과 수상, 협력기관과 연혁을 사실 그대로 기록합니다. 성과와 인증은 수치로, 현장의 이야기는 사람 중심으로 전합니다."
       >
         <nav aria-label="IMPACT 섹션" className="flex flex-wrap gap-2">

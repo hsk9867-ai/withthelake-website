@@ -24,8 +24,8 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact Us"
         crumbs={[{ label: "CONTACT US" }]}
-        title="문의를 남겨주시면 담당자가 확인 후 연락드립니다"
-        lead="문의 유형을 선택하고 요청 내용을 남겨 주세요. 접수 후 영업일 기준 2~3일 안에 답변드립니다."
+        title="문의하기"
+        lead="문의를 남겨주시면 담당자가 확인 후 연락드립니다. 문의 유형을 선택하고 요청 내용을 남겨 주세요. 접수 후 영업일 기준 2~3일 안에 답변드립니다."
       />
 
       <section className="section bg-surface">

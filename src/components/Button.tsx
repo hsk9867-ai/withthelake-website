@@ -35,7 +35,7 @@ export default function Button({
   external?: boolean;
   arrow?: boolean;
 }) {
-  const cls = `group/btn inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-[-0.01em] transition-colors duration-200 ${styles[variant]} ${sizes[size]} ${className}`;
+  const cls = `group/btn inline-flex items-center justify-center gap-2 rounded-md font-bold tracking-[-0.01em] transition-colors duration-200 ${styles[variant]} ${sizes[size]} ${className}`;
   const inner = (
     <>
       {children}

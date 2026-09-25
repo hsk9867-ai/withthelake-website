@@ -6,9 +6,9 @@ import Container from "./Container";
 type Crumb = { label: string; href?: string };
 
 /**
- * 서브페이지 공통 헤더.
- * 기본은 밝은 배경(크림) — 보라색 풀블리드는 HOME/CTA 밴드에만 쓰고, 서브페이지는 차분하게 시작합니다.
- * image 를 주면 오른쪽에 사진을 배치합니다.
+ * 서브페이지 공통 헤더 (레퍼런스 구조):
+ * 1) 코너 노치 + 페이지 제목
+ * 2) 브랜드 컬러 배너: 영문 타이틀(Manrope) + 한 줄 설명 + 우측 이미지
  */
 export default function PageHeader({
   eyebrow,
@@ -18,9 +18,10 @@ export default function PageHeader({
   image,
   imageAlt = "",
   children,
-  tone = "light",
 }: {
+  /** 배너의 영문 타이틀 (예: "About Us") */
   eyebrow: string;
+  /** 페이지 제목 (노치 옆) */
   title: ReactNode;
   lead?: ReactNode;
   crumbs?: Crumb[];
@@ -29,60 +30,43 @@ export default function PageHeader({
   children?: ReactNode;
   tone?: "light" | "dark";
 }) {
-  const dark = tone === "dark";
   return (
-    <section
-      className={`relative overflow-hidden border-b ${
-        dark ? "border-white/10 bg-primary text-white" : "border-line bg-cream"
-      }`}
-    >
-      {dark && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-32 -top-40 h-[480px] w-[480px] rounded-full bg-accent/25 blur-3xl"
-        />
-      )}
-      <Container className="relative">
-        <div
-          className={`grid gap-10 py-16 md:py-20 ${
-            image ? "lg:grid-cols-[1.15fr_0.85fr] lg:items-center" : ""
-          }`}
-        >
-          <div>
-            <nav aria-label="breadcrumb" className="t-meta flex flex-wrap items-center gap-2">
-              <Link href="/" className={dark ? "text-white/70 hover:text-white" : "text-muted hover:text-primary"}>
-                HOME
-              </Link>
-              {crumbs.map((c) => (
-                <span key={c.label} className="flex items-center gap-2">
-                  <span aria-hidden className={dark ? "text-white/40" : "text-line-strong"}>
-                    /
-                  </span>
-                  {c.href ? (
-                    <Link
-                      href={c.href}
-                      className={dark ? "text-white/70 hover:text-white" : "text-muted hover:text-primary"}
-                    >
-                      {c.label}
-                    </Link>
-                  ) : (
-                    <span className={dark ? "text-white" : "text-ink"}>{c.label}</span>
-                  )}
-                </span>
-              ))}
-            </nav>
-            <p className={`eyebrow mt-8 ${dark ? "text-accent" : "text-accent-deep"}`}>{eyebrow}</p>
-            <h1 className={`t-h1 mt-4 max-w-3xl ${dark ? "text-white" : "text-ink"}`}>{title}</h1>
-            {lead && (
-              <p className={`t-lead mt-6 max-w-2xl ${dark ? "text-white/85" : "text-muted"}`}>{lead}</p>
-            )}
-            {children && <div className="mt-8">{children}</div>}
-          </div>
-          {image && (
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] shadow-[0_30px_60px_-30px_rgba(23,22,28,0.35)]">
-              <Image src={image} alt={imageAlt} fill priority sizes="(min-width:1024px) 520px, 100vw" className="object-cover" />
+    <section className="bg-surface pt-[72px]">
+      <Container size="wide">
+        <div className="flex flex-wrap items-end justify-between gap-6 pb-10 pt-14 md:pt-20">
+          <h1 className="notch-title text-ink">{title}</h1>
+          <nav aria-label="breadcrumb" className="t-meta flex flex-wrap items-center gap-2 text-muted">
+            <Link href="/" className="hover:text-primary">HOME</Link>
+            {crumbs.map((c) => (
+              <span key={c.label} className="flex items-center gap-2">
+                <span aria-hidden className="text-line-strong">/</span>
+                {c.href ? (
+                  <Link href={c.href} className="hover:text-primary">{c.label}</Link>
+                ) : (
+                  <span className="text-ink">{c.label}</span>
+                )}
+              </span>
+            ))}
+          </nav>
+        </div>
+
+        <div className="relative overflow-hidden rounded-[10px] bg-primary text-white">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-24 -top-32 h-[420px] w-[420px] rounded-full bg-accent/30 blur-3xl"
+          />
+          <div className={`relative grid gap-8 px-8 py-12 md:px-14 md:py-16 ${image ? "lg:grid-cols-[1.2fr_0.8fr] lg:items-center" : ""}`}>
+            <div>
+              <p className="t-en text-white">{eyebrow}</p>
+              {lead && <p className="t-body-lg mt-5 max-w-2xl text-white/88">{lead}</p>}
+              {children && <div className="mt-8">{children}</div>}
             </div>
-          )}
+            {image && (
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[8px] lg:aspect-[4/3]">
+                <Image src={image} alt={imageAlt} fill priority sizes="(min-width:1024px) 480px, 100vw" className="object-cover" />
+              </div>
+            )}
+          </div>
         </div>
       </Container>
     </section>

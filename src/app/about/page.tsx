@@ -42,10 +42,10 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About · 회사소개"
+        eyebrow="About Us"
         crumbs={[{ label: "ABOUT" }]}
-        title="데이터와 건강행동을 연결해, 시니어의 건강한 자립생활이 더 오래 지속되도록 돕습니다"
-        lead="㈜위드더레이크는 지역사회 기반 예방건강관리 기업입니다. 병원 밖 일상에서 건강을 측정하고 이해하고 행동으로 잇는 구조를 만듭니다."
+        title="회사소개"
+        lead="㈜위드더레이크는 데이터와 건강행동을 연결해 시니어의 건강한 자립생활이 더 오래 지속되도록 돕는 지역사회 기반 예방건강관리 기업입니다. 병원 밖 일상에서 건강을 측정하고 이해하고 행동으로 잇는 구조를 만듭니다."
         image="/assets/stock/senior-care-visit.jpg"
         imageAlt="시니어 부부와 상담하는 건강관리 담당자"
       />
