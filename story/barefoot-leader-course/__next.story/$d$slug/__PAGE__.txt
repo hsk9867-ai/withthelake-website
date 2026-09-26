@@ -1,0 +1,37 @@
+1:"$Sreact.fragment"
+2:I[22016,["/withthelake-website/_next/static/chunks/1dsfdtthvrq03.js"],""]
+3:I[5500,["/withthelake-website/_next/static/chunks/1dsfdtthvrq03.js"],"Image"]
+4:I[97367,["/withthelake-website/_next/static/chunks/3fntmmi971322.js"],"OutletBoundary"]
+5:"$Sreact.suspense"
+9:I[97367,["/withthelake-website/_next/static/chunks/3fntmmi971322.js"],"ViewportBoundary"]
+a:I[97367,["/withthelake-website/_next/static/chunks/3fntmmi971322.js"],"MetadataBoundary"]
+8:X
+1a:X
+1a:C
+0:{"buildId":"p9NmC0MnQkR82CwcCS7Pe","data":[{"rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"border-b border-line bg-cream pt-[72px]","children":["$","div",null,{"className":"mx-auto w-full max-w-[820px] px-5 sm:px-8 md:px-10 py-14 md:py-20","children":[["$","nav",null,{"aria-label":"breadcrumb","className":"t-meta flex flex-wrap items-center gap-2 text-muted","children":[["$","$L2",null,{"href":"/","className":"hover:text-primary","children":"HOME"}],["$","span",null,{"aria-hidden":true,"children":"/"}],["$","$L2",null,{"href":"/story","className":"hover:text-primary","children":"STORY"}],["$","span",null,{"aria-hidden":true,"children":"/"}],["$","$L2",null,{"href":"/story?category=%ED%9E%90%EB%A7%81%EB%A1%9C%EB%93%9CON","className":"text-ink hover:text-primary","children":"힐링로드ON"}]]}],["$","h1",null,{"className":"t-h1 mt-8 text-ink","children":"맨발걷기 지도자 양성과정, 현장의 건강리더를 키웁니다"}],["$","p",null,{"className":"t-meta mt-5 flex items-center gap-3 text-muted","children":[["$","span",null,{"className":"font-semibold text-accent-deep","children":"힐링로드ON"}],["$","span",null,{"aria-hidden":true,"className":"text-line-strong","children":"·"}],["$","time",null,{"dateTime":"2026-06-20","children":"2026.06.20"}]]}]]}]}],["$","article",null,{"className":"section bg-surface","children":["$","div",null,{"className":"mx-auto w-full max-w-[820px] px-5 sm:px-8 md:px-10 ","children":[["$","div",null,{"className":"relative aspect-[16/9] overflow-hidden rounded-[24px]","children":["$","$L3",null,{"src":"/assets/activities/training-1.jpg","alt":"","fill":true,"priority":true,"sizes":"(min-width:820px) 820px, 100vw","className":"object-cover"}]}],["$","div",null,{"className":"mx-auto mt-12 max-w-[68ch] space-y-6","children":[["$","p",null,{"className":"t-lead font-medium text-ink","children":"지역에서 걷기 프로그램을 직접 이끌 지도자를 양성하는 과정입니다. 이론 교육과 현장 실습을 함께 진행합니다."}],[["$","p","0",{"className":"t-body-lg text-ink-2","children":"맨발걷기 지도자 양성과정은 지역에서 걷기 프로그램을 직접 운영할 건강리더를 양성하는 교육입니다."}],["$","p","1",{"className":"t-body-lg text-ink-2","children":"걷기의 기본 원리와 안전 수칙, 시니어 대상 프로그램 운영 방법을 배우고, 현장 실습을 통해 실제 진행 경험을 쌓습니다."}],["$","p","2",{"className":"t-body-lg text-ink-2","children":"과정을 수료한 지도자는 지자체·복지기관과 함께하는 COMMUNITY HEALTH 프로그램에 참여합니다."}]]]}],["$","nav",null,{"aria-label":"이전/다음 글","className":"mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2","children":[["$","$L2",null,{"href":"/story/senio-patent-filed","className":"group rounded-2xl border border-line p-5 transition-colors hover:border-primary","children":[["$","p",null,{"className":"t-meta text-muted","children":"이전 글"}],["$","p",null,{"className":"mt-1 text-[16px] font-semibold text-ink group-hover:text-primary","children":"SENIO 핵심 알고리즘 특허 출원을 완료했습니다"}]]}],["$","$L2",null,{"href":"/story/chuncheon-future-mou","className":"group rounded-2xl border border-line p-5 text-right transition-colors hover:border-primary","children":[["$","p",null,{"className":"t-meta text-muted","children":"다음 글"}],["$","p",null,{"className":"mt-1 text-[16px] font-semibold text-ink group-hover:text-primary","children":"춘천미래동행재단과 지역사회 예방건강관리 협약을 맺었습니다"}]]}]]}],["$","div",null,{"className":"mt-8 flex justify-center","children":["$","$L2",null,{"href":"/story","className":"group/btn inline-flex items-center justify-center gap-2 rounded-md font-bold tracking-[-0.01em] transition-colors duration-200 bg-white text-primary border border-primary/50 hover:border-primary hover:bg-primary-light min-h-12 px-7 text-[16px] ","children":[[["$","svg",null,{"width":16,"height":16,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":1.7,"strokeLinecap":"round","strokeLinejoin":"round","aria-hidden":true,"className":"rotate-180","children":["$","path",null,{"d":"M4 12h15M13 6l6 6-6 6"}]}]," 목록으로"],false]}]}]]}]}],false],null,["$","$L4",null,{"children":["$","$5",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"isPartial":"$@7","staleTime":"$8","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L9",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$La",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"맨발걷기 지도자 양성과정, 현장의 건강리더를 키웁니다 | 위드더레이크"}],["$","meta","1",{"name":"description","content":"지역에서 걷기 프로그램을 직접 이끌 지도자를 양성하는 과정입니다. 이론 교육과 현장 실습을 함께 진행합니다."}],"$Lb","$Lc","$Ld","$Le","$Lf","$L10","$L11","$L12","$L13","$L14","$L15"]}]}]}],"$L16"]}],"isPartial":"$@17","staleTime":"$8","varyParams":null},{"rsc":"$L18","isPartial":"$@19","staleTime":"$8","varyParams":"$1a"},{"rsc":"$L1b","isPartial":"$@1c","staleTime":"$8","varyParams":"$1a"}],"isUpgradeableISRFallback":false,"a":"$@1d","rootVaryParams":null,"needsRuntimeRequest":"$@1e"}
+1f:I[27201,["/withthelake-website/_next/static/chunks/3fntmmi971322.js"],"IconMark"]
+20:I[39756,["/withthelake-website/_next/static/chunks/3fntmmi971322.js"],"default"]
+21:I[37457,["/withthelake-website/_next/static/chunks/3fntmmi971322.js"],"default"]
+6:null
+b:["$","meta","2",{"name":"robots","content":"index, follow"}]
+c:["$","meta","3",{"property":"og:title","content":"맨발걷기 지도자 양성과정, 현장의 건강리더를 키웁니다"}]
+d:["$","meta","4",{"property":"og:description","content":"지역에서 걷기 프로그램을 직접 이끌 지도자를 양성하는 과정입니다. 이론 교육과 현장 실습을 함께 진행합니다."}]
+e:["$","meta","5",{"property":"og:image","content":"https://hsk9867-ai.github.io/withthelake-website/assets/activities/training-1.jpg"}]
+f:["$","meta","6",{"name":"twitter:card","content":"summary_large_image"}]
+10:["$","meta","7",{"name":"twitter:title","content":"맨발걷기 지도자 양성과정, 현장의 건강리더를 키웁니다"}]
+11:["$","meta","8",{"name":"twitter:description","content":"지역에서 걷기 프로그램을 직접 이끌 지도자를 양성하는 과정입니다. 이론 교육과 현장 실습을 함께 진행합니다."}]
+12:["$","meta","9",{"name":"twitter:image","content":"https://hsk9867-ai.github.io/withthelake-website/assets/activities/training-1.jpg"}]
+13:["$","link","10",{"rel":"icon","href":"/withthelake-website/favicon.ico?favicon.2vob68tjqpejf.ico","sizes":"256x256","type":"image/x-icon"}]
+14:["$","link","11",{"rel":"icon","href":"/withthelake-website/icon.png?icon.1mphpae0obq9t.png","sizes":"512x512","type":"image/png"}]
+15:["$","$L1f","12",{}]
+16:["$","meta",null,{"name":"next-size-adjust","content":""}]
+18:["$","$1","c",{"children":[null,["$","$L20",null,{"parallelRouterKey":"children","template":["$","$L21",null,{}]}]]}]
+1b:["$","$1","c",{"children":[null,["$","$L20",null,{"parallelRouterKey":"children","template":["$","$L21",null,{}]}]]}]
+1e:true
+8:300
+8:C
+1d:0
+17:"$undefined"
+19:"$undefined"
+1c:"$undefined"
+7:"$undefined"
