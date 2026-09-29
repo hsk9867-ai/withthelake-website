@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 /** 로그인이 필요한 관리자 화면의 공통 틀 (상단 바 + 왼쪽 메뉴) */
 export default async function AdminPanelLayout({ children }: LayoutProps<"/admin">) {
-  if (!isAdminConfigured()) return <NotConfigured />;
+  if (!(await isAdminConfigured())) return <NotConfigured />;
   if (!(await isAuthenticated())) redirect("/admin/login");
 
   const items = SECTION_ORDER.map((key) => ({ key, label: SECTIONS[key].label }));

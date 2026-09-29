@@ -24,6 +24,13 @@ export default function AdminNav({ items }: { items: { key: string; label: strin
             </Link>
           );
         })}
+        <p className="px-3 pb-1 pt-4 text-[11px] font-bold uppercase tracking-wider text-muted">관리</p>
+        <Link
+          href="/admin/settings"
+          className={`block rounded-md px-3 py-2 text-[14px] font-semibold ${pathname === "/admin/settings" ? "bg-primary text-white" : "text-ink-2 hover:bg-white"}`}
+        >
+          설정
+        </Link>
       </nav>
     </aside>
   );

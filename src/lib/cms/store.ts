@@ -86,18 +86,36 @@ function parse(raw: string | null | undefined): SiteContent {
   }
 }
 
-async function readRaw(): Promise<string | null> {
+/** 저장소(GitHub 또는 로컬)에서 텍스트 파일을 읽습니다. 없으면 null. */
+export async function readStoredText(filePath: string): Promise<string | null> {
   const gh = githubConfig();
   if (gh) {
-    const file = await ghRead(gh, CONTENT_PATH);
+    const file = await ghRead(gh, filePath);
     return file ? file.content.toString("utf8") : null;
   }
   try {
-    return await fs.readFile(path.join(process.cwd(), CONTENT_PATH), "utf8");
+    return await fs.readFile(path.join(process.cwd(), filePath), "utf8");
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") return null;
     throw err;
   }
+}
+
+/** 저장소(GitHub 또는 로컬)에 텍스트 파일을 씁니다. */
+export async function writeStoredText(filePath: string, text: string, message: string) {
+  const data = Buffer.from(text, "utf8");
+  const gh = githubConfig();
+  if (gh) {
+    await ghWrite(gh, filePath, data, message);
+    return;
+  }
+  const file = path.join(process.cwd(), filePath);
+  await fs.mkdir(path.dirname(file), { recursive: true });
+  await fs.writeFile(file, data);
+}
+
+async function readRaw(): Promise<string | null> {
+  return readStoredText(CONTENT_PATH);
 }
 
 /** 전체 콘텐츠 (기본값과 병합). 한 번의 렌더링 안에서는 여러 번 불러도 한 번만 읽습니다. */
@@ -109,15 +127,7 @@ export async function hasStoredContent() {
 }
 
 export async function saveContent(content: SiteContent, message = "CMS: 콘텐츠 수정") {
-  const data = Buffer.from(JSON.stringify(content, null, 2) + "\n", "utf8");
-  const gh = githubConfig();
-  if (gh) {
-    await ghWrite(gh, CONTENT_PATH, data, message);
-    return;
-  }
-  const file = path.join(process.cwd(), CONTENT_PATH);
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  await fs.writeFile(file, data);
+  await writeStoredText(CONTENT_PATH, JSON.stringify(content, null, 2) + "\n", message);
 }
 
 export async function saveSection<K extends SectionKey>(key: K, value: SiteContent[K], label?: string) {

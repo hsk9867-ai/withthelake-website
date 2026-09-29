@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { checkPassword, createSession, destroySession, requireAdmin } from "@/lib/admin/auth";
+import { MIN_PASSWORD_LENGTH, checkPassword, createSession, destroySession, requireAdmin, savePassword } from "@/lib/admin/auth";
 import { getContent, saveContent, saveSection, saveUpload } from "@/lib/cms/store";
 import { DEFAULT_CONTENT } from "@/lib/cms/defaults";
 import { SECTION_KEYS, type SectionKey, type SiteContent } from "@/lib/cms/types";
@@ -23,7 +23,7 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
   const password = String(formData.get("password") ?? "");
   // 무차별 대입을 늦추기 위한 짧은 지연
   await new Promise((r) => setTimeout(r, 400));
-  if (!checkPassword(password)) return { ok: false, error: "비밀번호가 올바르지 않습니다." };
+  if (!(await checkPassword(password))) return { ok: false, error: "비밀번호가 올바르지 않습니다." };
   await createSession();
   const next = String(formData.get("next") ?? "/admin");
   redirect(next.startsWith("/admin") ? next : "/admin");
@@ -32,6 +32,29 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
 export async function logoutAction() {
   await destroySession();
   redirect("/admin/login");
+}
+
+/** 관리자 비밀번호 변경. 현재 비밀번호를 확인한 뒤 저장하고, 새 비밀번호로 세션을 다시 발급합니다. */
+export async function changePasswordAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  let saved: Awaited<ReturnType<typeof savePassword>>;
+  try {
+    await requireAdmin();
+    const current = String(formData.get("current") ?? "");
+    const next = String(formData.get("next") ?? "");
+    const confirm = String(formData.get("confirm") ?? "");
+    await new Promise((r) => setTimeout(r, 400));
+    if (!(await checkPassword(current))) return { ok: false, error: "현재 비밀번호가 올바르지 않습니다." };
+    if (next.length < MIN_PASSWORD_LENGTH) return { ok: false, error: `새 비밀번호는 ${MIN_PASSWORD_LENGTH}자 이상이어야 합니다.` };
+    if (/\s/.test(next)) return { ok: false, error: "새 비밀번호에는 공백을 쓸 수 없습니다." };
+    if (next !== confirm) return { ok: false, error: "새 비밀번호 확인이 일치하지 않습니다." };
+    if (next === current) return { ok: false, error: "현재 비밀번호와 다른 비밀번호를 입력해 주세요." };
+    saved = await savePassword(next);
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "비밀번호 변경 중 오류가 발생했습니다." };
+  }
+  // 서명 키가 비밀번호에서 파생되므로 새 키로 세션을 다시 발급합니다 (다른 기기의 로그인은 풀립니다).
+  await createSession(saved);
+  return { ok: true, message: "비밀번호를 바꿨습니다. 다음 로그인부터 새 비밀번호를 쓰세요." };
 }
 
 /** 검증: 게시물 slug 중복 · 형식, 제품 가격 등 */

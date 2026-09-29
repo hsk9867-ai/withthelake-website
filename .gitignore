@@ -45,3 +45,6 @@ next-env.d.ts
 
 # keep the env template
 !.env.example
+
+# admin password hash (set via /admin/settings or `npm run admin:password`); keep out of the public repo
+/content/admin-auth.json

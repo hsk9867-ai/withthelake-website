@@ -6,10 +6,11 @@ import LoginForm from "./LoginForm";
 export const dynamic = "force-dynamic";
 
 export default async function LoginPage() {
-  if (isAdminConfigured() && (await isAuthenticated())) redirect("/admin");
+  const configured = await isAdminConfigured();
+  if (configured && (await isAuthenticated())) redirect("/admin");
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      {isAdminConfigured() ? (
+      {configured ? (
         <Suspense fallback={null}>
           <LoginForm />
         </Suspense>
