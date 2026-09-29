@@ -786,7 +786,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       lead: "다양한 연구에서 맨발걷기의 긍정적 효과가 보고되고 있습니다. 아래 내용은 연구 결과를 요약한 것이며, 개인에 따라 효과가 다를 수 있습니다.",
       items: [
         { title: "발·다리 근력 강화", body: "구속 없는 움직임과 감각 자극이 발 근육과 균형성 개선에 도움을 줍니다.", source: "National Geographic", url: "https://www.nationalgeographic.com/science/article/why-walking-barefoot-can-actually-help-your-feet" },
-        { title: "인지 기능 향상", body: "12주간 맨발걷기 후 인지 속도 및 집중력 향상, 뇌 스트레스 감소가 관찰되었습니다.", source: "PubMed 연구", url: "https://pubmed.ncbi.nlm.nih.gov/38118297/" },
+        { title: "인지 기능 향상", body: "12주간 맨발걷기 후 인지 속도 및 집중력 향상, 뇌 스트레스 감소가 관찰되었습니다.", source: "PubMed 연구", url: "https://pubmed.ncbi.nlm.nih.gov/38926837/" },
         { title: "스트레스·수면 개선", body: "스트레스 감소, 수면 질 향상, 삶의 질 개선 효과가 연구에서 보고되었습니다.", source: "PubMed 연구", url: "https://pubmed.ncbi.nlm.nih.gov/41302225/" },
         { title: "염증·면역 반응", body: "맨발걷기 후 염증 지표 변화, 면역 관련 물질 반응이 관찰되었습니다.", source: "MDPI 학술지", url: "https://www.mdpi.com/2227-9032/12/23/2372" },
       ],
@@ -818,8 +818,8 @@ export const DEFAULT_CONTENT: SiteContent = {
       lead: "맨발걷기와 어싱(Earthing)에 대한 과학적 연구와 신뢰할 수 있는 매체의 기사입니다.",
       items: [
         { tag: "발 건강·근력", title: "Why walking barefoot can actually help your feet", body: "맨발걷기가 발 근력 개선, 균형감 향상, 걷기 패턴 개선에 도움이 된다는 연구 결과 소개", source: "National Geographic", url: "https://www.nationalgeographic.com/science/article/why-walking-barefoot-can-actually-help-your-feet" },
-        { tag: "뇌 기능·인지", title: "Barefoot walking improves cognitive ability in adolescents", body: "12주간 맨발걷기 운동 후 인지 속도 및 집중력 향상, 뇌 스트레스 감소 관찰", source: "PubMed (임상연구)", url: "https://pubmed.ncbi.nlm.nih.gov/38118297/" },
-        { tag: "통증 관리", title: "Barefoot walking is beneficial for plantar heel pain", body: "발바닥 통증 환자에서 맨발걷기 그룹이 통증 완화, 기능 개선, 삶의 질 향상을 보임", source: "PubMed (RCT 연구)", url: "https://pubmed.ncbi.nlm.nih.gov/38926837/" },
+        { tag: "뇌 기능·인지", title: "Barefoot walking improves cognitive ability in adolescents", body: "12주간 맨발걷기 운동 후 인지 속도 및 집중력 향상, 뇌 스트레스 감소 관찰", source: "PubMed (임상연구)", url: "https://pubmed.ncbi.nlm.nih.gov/38926837/" },
+        { tag: "통증 관리", title: "Barefoot walking is beneficial for plantar heel pain", body: "발바닥 통증 환자에서 맨발걷기 그룹이 통증 완화, 기능 개선, 삶의 질 향상을 보임", source: "PubMed (RCT 연구)", url: "https://pubmed.ncbi.nlm.nih.gov/38118297/" },
         { tag: "웰니스·수면", title: "Effects of Barefoot Walking on Menopausal Symptoms", body: "중년 여성에서 폐경기 증상 완화, 스트레스 감소, 수면 질 향상 효과 관찰", source: "PubMed (임상연구)", url: "https://pubmed.ncbi.nlm.nih.gov/41302225/" },
         { tag: "면역·생리", title: "Effects of Barefoot Walking on CRP, IFNγ, and Serotonin", body: "숲속 맨발걷기 후 염증 지표, 면역 관련 물질, 세로토닌 수치 변화 관찰", source: "MDPI (학술지)", url: "https://www.mdpi.com/2227-9032/12/23/2372" },
         { tag: "염증·자가면역", title: "Grounding and inflammation research", body: "접지(Grounding)가 염증, 면역 반응, 상처 치유에 미치는 영향에 대한 통합 리뷰", source: "PMC (NIH)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4378297/" },
@@ -845,18 +845,15 @@ export const DEFAULT_CONTENT: SiteContent = {
       title: "힐링로드 ON",
       lead: "맨발걷기 워킹 테라피. 걷기 안내와 긍정확언 음성을 들으며 걷고, 길 안내로 산책로를 찾고, 걷고 난 뒤 오늘의 감정을 기록하세요.",
     },
-    features: [
-      { emoji: "🎧", title: "오디오 듣기", body: "걷기 안내와 긍정적 메시지", anchor: "audio" },
-      { emoji: "🗺️", title: "길 안내", body: "전국의 힐링 산책로를 찾아보세요", anchor: "trails" },
-      { emoji: "📝", title: "기록하기", body: "오늘의 감정을 기록해요", anchor: "record" },
-      { emoji: "📋", title: "설문조사", body: "서비스 개선에 참여해주세요", anchor: "survey" },
-    ],
     audio: {
-      eyebrow: "Audio Guide",
       title: "오디오 듣기",
-      lead: "원하는 카테고리를 선택하고 재생 버튼을 누르세요. 이어폰을 끼고 걸으면 더 좋습니다.",
+      lead: "걷기 안내와 긍정적 메세지",
+      placeholder: "오디오를 선택해주세요",
+      placeholderHint: "아래에서 원하는 카테고리를 선택하세요",
+      mapLabel: "지도로 선택",
       walkGuides: {
         label: "걷기 안내",
+        emoji: "🚶",
         description: "걷기의 효과와 올바른 방법을 안내해드려요",
         items: [
           { emoji: "🚶‍♀️", title: "걷기 시작하기", description: "걷기의 의미와 효과, 호흡과 스트레칭, 걷기 명상 안내", src: wav("1.걷기안내.wav") },
@@ -866,6 +863,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       },
       affirmations: {
         label: "긍정확언",
+        emoji: "💭",
         description: "마음을 다독이는 따뜻한 메시지",
         items: [
           { emoji: "🌳", title: "자기수용 1", description: "나는 있는 그대로의 나를 사랑하고 존중합니다.", src: wav("1.나는있는그대로의 나를 사랑하고 존중합니다.wav") },
@@ -881,6 +879,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       },
       trailGuides: {
         label: "길 안내",
+        emoji: "🗺️",
         description: "전국의 힐링 산책로를 찾아보세요",
         items: [
           { emoji: "🌳", title: "화강 느티나무 삼십리길", description: "강원도 철원군 화강 느티나무 삼십리길 맨발걷기 코스 안내", region: "강원 철원", distance: "3.0km", walkingTime: "약 50분", difficulty: "보통", src: wav("3.길안내_1_화강 느티나무 삼십리길.wav") },
@@ -897,15 +896,10 @@ export const DEFAULT_CONTENT: SiteContent = {
         ],
       },
     },
-    trails: {
-      eyebrow: "Healing Trails",
-      title: "길 안내",
-      lead: "힐링로드 ON이 소개하는 맨발 산책로입니다. 코스마다 안내 음성을 들을 수 있습니다.",
-    },
     record: {
-      eyebrow: "Daily Record",
       title: "기록하기",
-      lead: "걷기 후 느낀 감정을 기록해요. 기록은 이 기기의 브라우저에만 저장됩니다.",
+      lead: "오늘의 감정을 기록해요",
+      buttonLabel: "오늘 감정",
       moods: [
         { emoji: "😊", label: "행복해요" },
         { emoji: "😌", label: "편안해요" },
@@ -914,18 +908,16 @@ export const DEFAULT_CONTENT: SiteContent = {
         { emoji: "😔", label: "우울해요" },
         { emoji: "😫", label: "힘들어요" },
       ],
-      note: "오늘의 감정을 고르고 한 줄 메모를 남겨 보세요. 최근 기록 7개가 아래에 표시됩니다.",
+      note: "걷기 후 느낀 감정을 고르고 한 줄 메모를 남겨 보세요. 기록은 이 기기의 브라우저에만 저장되며 최근 7개가 표시됩니다.",
     },
     survey: {
-      title: "설문조사",
-      body: "서비스 개선에 참여해주세요. 2~3분이면 충분합니다.",
-      buttonLabel: "설문 참여하기",
+      buttonLabel: "설문조사",
       url: "https://forms.gle/At8WaVZLsXLCoxCLA",
     },
     store: {
-      title: "힐링로드 ON 제품",
-      body: "맨발걷기에 필요한 제품을 네이버 스마트스토어에서 만나보세요.",
+      title: "힐링로드ON 제품",
       buttonLabel: "스마트스토어 바로가기",
+      count: 4,
     },
     community: {
       title: "힐링로드 ON 커뮤니티",

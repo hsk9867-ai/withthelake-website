@@ -289,19 +289,19 @@ export type HealingTrailItem = HealingAudioItem & { region: string; distance: st
 export type HealingContent = {
   meta: Meta;
   header: PageHeaderContent;
-  features: { emoji: string; title: string; body: string; anchor: string }[];
   audio: {
-    eyebrow: string;
     title: string;
     lead: string;
-    walkGuides: { label: string; description: string; items: HealingAudioItem[] };
-    affirmations: { label: string; description: string; items: HealingAudioItem[] };
-    trailGuides: { label: string; description: string; items: HealingTrailItem[] };
+    placeholder: string;
+    placeholderHint: string;
+    mapLabel: string;
+    walkGuides: { label: string; emoji: string; description: string; items: HealingAudioItem[] };
+    affirmations: { label: string; emoji: string; description: string; items: HealingAudioItem[] };
+    trailGuides: { label: string; emoji: string; description: string; items: HealingTrailItem[] };
   };
-  trails: { eyebrow: string; title: string; lead: string };
-  record: { eyebrow: string; title: string; lead: string; moods: { emoji: string; label: string }[]; note: string };
-  survey: { title: string; body: string; buttonLabel: string; url: string };
-  store: { title: string; body: string; buttonLabel: string };
+  record: { title: string; lead: string; buttonLabel: string; moods: { emoji: string; label: string }[]; note: string };
+  survey: { buttonLabel: string; url: string };
+  store: { title: string; buttonLabel: string; count: number };
   community: { title: string; body: string; buttonLabel: string };
 };
 
