@@ -13,8 +13,15 @@
     "binding": "ASSETS"
   },
   "observability": { "enabled": true },
+  // 커스텀 도메인과 별개로 workers.dev 주소도 계속 켜 둡니다 (도메인 전환 전·후 예비 주소)
+  "workers_dev": true,
+  // 커스텀 도메인: Cloudflare 에 withthelake.com 존(zone)이 있어야 합니다. 배포 시 DNS 레코드와 SSL 이 자동으로 만들어집니다.
+  "routes": [
+    { "pattern": "withthelake.com", "custom_domain": true },
+    { "pattern": "www.withthelake.com", "custom_domain": true }
+  ],
   "vars": {
-    "NEXT_PUBLIC_SITE_URL": "https://withthelake-website.hsk9867.workers.dev",
+    "NEXT_PUBLIC_SITE_URL": "https://www.withthelake.com",
     "SUPABASE_URL": "https://hjffplrqhvmwdownfbhg.supabase.co",
     "SUPABASE_BUCKET": "uploads",
     "CONTACT_TO_EMAIL": "contact@withthelake.com",
