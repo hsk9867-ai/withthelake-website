@@ -81,7 +81,7 @@ Cloudflare Workers 에 OpenNext 어댑터로 올립니다. 콘텐츠 저장은 S
      OPEN_NEXT_DEPLOY=true npx wrangler deploy      # PowerShell: $env:OPEN_NEXT_DEPLOY="true"; npx wrangler deploy
      ```
 
-현재 배포: https://withthelake-website.hsk9867.workers.dev (관리자: `/admin`). 비밀값 변경은 `npx wrangler secret put <이름>`, 목록은 `npx wrangler secret list`.
+현재 배포: https://withthelake.com · https://www.withthelake.com (Cloudflare 커스텀 도메인, 예비 주소 https://withthelake-website.hsk9867.workers.dev). 관리자: `/admin`. 비밀값 변경은 `npx wrangler secret put <이름>`, 목록은 `npx wrangler secret list`.
 - 코드 쪽 기본값은 `src/lib/cms/defaults.ts`, 타입은 `src/lib/cms/types.ts`, 관리자 폼 정의는 `src/lib/admin/schema.ts` 에 있습니다. 새 필드를 추가하면 세 파일을 함께 수정합니다.
 
 ## 콘텐츠 파일
