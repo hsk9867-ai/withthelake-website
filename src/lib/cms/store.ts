@@ -156,7 +156,9 @@ export async function readStoredText(filePath: string): Promise<string | null> {
     return await fs.readFile(path.join(process.cwd(), filePath), "utf8");
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") return null;
-    throw err;
+    // 파일시스템이 없는 서버(Cloudflare Workers 등)에서 저장소 환경변수가 빠졌을 때: 기본 콘텐츠로 렌더링합니다.
+    console.error(`[CMS] ${filePath} 읽기 실패 — SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY 를 설정했는지 확인하세요.`, err);
+    return null;
   }
 }
 
