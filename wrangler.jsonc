@@ -1,0 +1,23 @@
+// Cloudflare Workers 배포 설정 (OpenNext 어댑터)
+// 미리보기: npm run cf:preview   배포: npm run cf:deploy
+// 비밀값(SUPABASE_SERVICE_ROLE_KEY, ADMIN_PASSWORD, ADMIN_SESSION_SECRET, RESEND_API_KEY)은
+// `npx wrangler secret put <이름>` 으로 넣고, 공개 가능한 값만 아래 vars 에 둡니다.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "withthelake-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://withthelake-website.workers.dev",
+    "SUPABASE_URL": "",
+    "SUPABASE_BUCKET": "uploads",
+    "CONTACT_TO_EMAIL": "contact@withthelake.com",
+    "CONTACT_FROM_EMAIL": "WITH THE LAKE <noreply@withthelake.com>"
+  }
+}

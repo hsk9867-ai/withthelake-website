@@ -56,9 +56,11 @@ export default async function AdminHome() {
       <div className="rounded-xl border border-line bg-white p-5 text-[13px] leading-6 text-muted">
         <p className="font-bold text-ink">저장 방식</p>
         <p className="mt-1">
-          {mode === "github"
-            ? "저장할 때마다 GitHub 저장소에 커밋됩니다. 변경 이력은 저장소의 content/site-content.json 커밋 기록에서 확인할 수 있습니다."
-            : "content/site-content.json 파일에 저장됩니다. 이 파일을 git 에 커밋하면 GitHub Pages 미리보기에도 반영됩니다."}
+          {mode === "supabase"
+            ? "Supabase 데이터베이스(cms_files 테이블)에 저장되고, 업로드한 이미지는 Supabase Storage(uploads 버킷)에 보관됩니다. 코드 저장소에는 아무것도 커밋되지 않습니다."
+            : mode === "github"
+              ? "저장할 때마다 GitHub 저장소에 커밋됩니다. 변경 이력은 저장소의 content/site-content.json 커밋 기록에서 확인할 수 있습니다."
+              : "content/site-content.json 파일에 저장됩니다. 이 파일을 git 에 커밋하면 GitHub Pages 미리보기에도 반영됩니다."}
         </p>
       </div>
     </div>

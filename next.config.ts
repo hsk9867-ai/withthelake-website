@@ -18,8 +18,12 @@ const nextConfig: NextConfig = {
       }
     : {
         images: {
-          // 관리자에서 올린 이미지는 GitHub 저장소(raw URL)에서 바로 불러올 수 있습니다.
-          remotePatterns: [{ protocol: "https", hostname: "raw.githubusercontent.com" }],
+          // 관리자에서 올린 이미지: Supabase Storage(공개 버킷) 또는 GitHub 저장소(raw URL)
+          remotePatterns: [
+            { protocol: "https", hostname: "*.supabase.co" },
+            { protocol: "https", hostname: "*.supabase.in" },
+            { protocol: "https", hostname: "raw.githubusercontent.com" },
+          ],
         },
       }),
   experimental: {

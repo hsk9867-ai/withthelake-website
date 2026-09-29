@@ -32,9 +32,10 @@ npm run deploy:pages
 | `NEXT_PUBLIC_SITE_URL` | 사이트 공개 URL (sitemap · OG 절대경로) |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 측정 ID. 설정 시 자동 로드 |
 | `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | CONTACT US 접수 메일 발송(Resend). 미설정 시 서버 로그에만 기록 |
-| `ADMIN_PASSWORD` | 관리자 페이지(`/admin`) 비밀번호. 설정해야 관리자가 열립니다 |
-| `ADMIN_SESSION_SECRET` | 로그인 세션 서명 키(선택). 미설정 시 비밀번호에서 파생 |
-| `CMS_GITHUB_TOKEN`, `CMS_GITHUB_REPO`, `CMS_GITHUB_BRANCH` | 콘텐츠를 GitHub 저장소에 커밋해 보관(선택). Vercel 처럼 파일이 유지되지 않는 서버에서는 필수 |
+| `ADMIN_PASSWORD` | 관리자 페이지(`/admin`) 최초 비밀번호. 관리자 설정에서 바꾸면 그 뒤로는 무시됩니다 |
+| `ADMIN_SESSION_SECRET` | 로그인 세션 서명 키(선택, 운영에서는 권장). 미설정 시 비밀번호에서 파생 |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_BUCKET` | 콘텐츠·업로드·비밀번호를 Supabase 에 보관(운영 권장). `supabase/schema.sql` 실행 필요. 버킷 기본값 `uploads` |
+| `CMS_GITHUB_TOKEN`, `CMS_GITHUB_REPO`, `CMS_GITHUB_BRANCH` | 콘텐츠를 GitHub 저장소에 커밋해 보관(선택). Supabase 가 설정되면 무시됩니다 |
 
 ## 관리자 페이지 (`/admin`)
 
@@ -52,9 +53,28 @@ npm run deploy:pages
 
 - 저장하면 사이트 캐시가 즉시 갱신됩니다. 이미지는 각 이미지 필드에서 바로 업로드할 수 있습니다(8MB 이하).
 - 대시보드에서 전체 콘텐츠를 JSON 으로 내려받거나(백업) 다시 불러올 수 있습니다.
-- 저장 위치는 두 가지입니다.
+- 비밀번호는 왼쪽 메뉴 **설정** 에서 바꿉니다. 바꾼 비밀번호는 해시로만 저장되고(`content/admin-auth.json` 또는 Supabase), 그 뒤로 `ADMIN_PASSWORD` 는 무시됩니다. 잊었을 때는 `npm run admin:password -- 새비밀번호` (로컬 파일 모드).
+- 저장 위치는 세 가지입니다.
+  - **Supabase** (운영 권장): `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` 를 설정하면 콘텐츠는 `cms_files` 테이블에, 업로드는 Storage `uploads` 버킷에 저장됩니다. 먼저 Supabase SQL Editor 에서 `supabase/schema.sql` 을 실행해 테이블·버킷을 만듭니다. Cloudflare · Vercel 등 어떤 서버에서도 저장이 유지되고 git 에는 아무것도 커밋되지 않습니다.
+  - **GitHub 커밋**: `CMS_GITHUB_TOKEN` 을 설정하면 같은 경로를 GitHub 저장소에 커밋합니다. 업로드 이미지는 저장소 raw URL 로 연결됩니다(저장소 공개 필요).
   - **로컬 파일** (기본): `content/site-content.json` · 업로드는 `public/uploads/`. 개발 환경과 자체 서버(`next start`)에서 사용하며, 이 파일들을 git 에 커밋하면 GitHub Pages 미리보기에도 반영됩니다.
-  - **GitHub 커밋**: `CMS_GITHUB_TOKEN` 을 설정하면 같은 경로를 GitHub 저장소에 커밋합니다. Vercel 배포에서는 이 방식을 써야 저장이 유지됩니다. 업로드 이미지는 저장소 raw URL 로 연결됩니다(저장소 공개 필요).
+- 사이트 페이지는 요청 시 렌더링되므로(정적 내보내기 제외) 저장한 내용이 바로 보입니다. sitemap · OG 이미지는 빌드 시점 콘텐츠를 씁니다.
+
+## Cloudflare 배포 (관리자 페이지 포함)
+
+Cloudflare Workers 에 OpenNext 어댑터로 올립니다. 콘텐츠 저장은 Supabase 를 씁니다.
+
+1. Supabase 프로젝트를 만들고 SQL Editor 에서 `supabase/schema.sql` 을 실행합니다. Project Settings → API 에서 URL 과 `service_role` 키를 확인합니다.
+2. `wrangler.jsonc` 의 `vars.SUPABASE_URL` 과 `vars.NEXT_PUBLIC_SITE_URL` 을 채웁니다.
+3. Cloudflare 로그인 후 비밀값을 등록합니다.
+   ```bash
+   npx wrangler login
+   npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+   npx wrangler secret put ADMIN_PASSWORD
+   npx wrangler secret put ADMIN_SESSION_SECRET   # 예: openssl rand -base64 32
+   npx wrangler secret put RESEND_API_KEY          # 문의 메일을 쓸 때만
+   ```
+4. 배포: `npm run cf:deploy` (로컬 미리보기: `npm run cf:preview`). 배포 주소의 `/admin` 이 관리자 페이지입니다.
 - 코드 쪽 기본값은 `src/lib/cms/defaults.ts`, 타입은 `src/lib/cms/types.ts`, 관리자 폼 정의는 `src/lib/admin/schema.ts` 에 있습니다. 새 필드를 추가하면 세 파일을 함께 수정합니다.
 
 ## 콘텐츠 파일
