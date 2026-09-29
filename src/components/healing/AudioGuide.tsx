@@ -105,7 +105,9 @@ export default function HealingApp({ audio, record, survey }: { audio: HealingCo
     return acc;
   }, {});
 
-  const catBtn = "flex min-h-[72px] items-center justify-center gap-2.5 rounded-[18px] border border-line bg-white text-[19px] font-bold text-ink shadow-sm transition-colors hover:border-primary/60 active:bg-cream";
+  // 색상은 변형별로 따로 붙입니다 (같은 속성의 유틸리티가 겹치면 뒤에 정의된 쪽이 이겨서 글자가 사라질 수 있음)
+  const btnBase = "flex min-h-[72px] items-center justify-center gap-2.5 rounded-[18px] border text-[19px] font-bold shadow-sm transition-colors";
+  const catBtn = `${btnBase} border-line bg-white text-ink hover:border-primary/60 active:bg-cream`;
 
   return (
     <div className="space-y-9">
@@ -185,7 +187,7 @@ export default function HealingApp({ audio, record, survey }: { audio: HealingCo
               {c.label}
             </button>
           ))}
-          <button type="button" onClick={() => setSheet({ kind: "map" })} className={`${catBtn} border-primary bg-primary text-white hover:bg-primary-dark active:bg-primary-dark`}>
+          <button type="button" onClick={() => setSheet({ kind: "map" })} className={`${btnBase} border-primary bg-primary text-white hover:bg-primary-dark active:bg-primary-dark`}>
             <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="currentColor" /></svg>
             {audio.mapLabel}
           </button>
@@ -200,12 +202,12 @@ export default function HealingApp({ audio, record, survey }: { audio: HealingCo
           <span className="text-[16px] font-medium text-muted">{record.lead}</span>
         </h2>
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <button type="button" onClick={() => setSheet({ kind: "mood" })} className={`${catBtn} border-rose-200 bg-rose-50 text-rose-600 hover:border-rose-300`}>
+          <button type="button" onClick={() => setSheet({ kind: "mood" })} className={`${btnBase} border-rose-200 bg-rose-50 text-rose-600 hover:border-rose-300 active:bg-rose-100`}>
             <span aria-hidden className="text-[22px]">😊</span>
             {record.buttonLabel}
           </button>
           {survey.url && (
-            <a href={survey.url} target="_blank" rel="noreferrer" className={`${catBtn} border-sky-200 bg-sky-50 text-sky-700 hover:border-sky-300`}>
+            <a href={survey.url} target="_blank" rel="noreferrer" className={`${btnBase} border-sky-200 bg-sky-50 text-sky-700 hover:border-sky-300 active:bg-sky-100`}>
               <span aria-hidden className="text-[22px]">📋</span>
               {survey.buttonLabel}
             </a>
