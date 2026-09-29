@@ -3,75 +3,32 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import Button from "@/components/Button";
 import Reveal from "@/components/Reveal";
-import { SITE } from "@/content/site";
 import { IconArrow } from "@/components/Icons";
+import { isPublished } from "@/lib/cms/helpers";
+import type { HomeContent, SiteSettings } from "@/lib/cms/types";
+
+type Data = HomeContent["whatWeDo"];
+type Props = { data: Data; site: SiteSettings };
 
 /**
  * 레퍼런스 "Our Products" — 세로 패널 이미지 콜라주 위에 큰 흰 타이틀.
  * 기획서 05 WHAT WE DO 의 세 사업을 패널로 두고, 아래에 원고 카드를 이어 붙입니다.
+ * 비공개 페이지(사이트 설정 publish)는 링크와 '자세히 보기' 버튼이 숨겨집니다.
  */
-type Biz = {
-  name: string;
-  kind: string;
-  tag: string;
-  body: string;
-  pills: string[];
-  image: string;
-  imageAlt: string;
-  href?: string;
-  actions: { label: string; href: string; variant: "primary" | "secondary"; external?: boolean }[];
-};
+function resolve(biz: Data["businesses"][number], site: SiteSettings) {
+  const published = isPublished(site, biz.key);
+  const href = published && biz.href ? biz.href : undefined;
+  // 비공개 페이지로 가는 버튼(자세히 보기)은 숨기고 외부 링크·문의 버튼은 유지
+  const actions = published ? biz.actions : biz.actions.filter((a) => a.href !== biz.href);
+  return { href, actions };
+}
 
-const BUSINESSES: Biz[] = [
-  {
-    name: "SENIO",
-    kind: "디지털 헬스케어",
-    tag: "건강을 이해하는 기술",
-    body: "소변 기반 생체데이터와 걷기·운동 등 생활데이터를 연결하는 디지털 헬스케어 솔루션입니다. 비의료 인력도 3분 안에 7종 지표를 측정하고 기록할 수 있습니다.",
-    pills: ["Strip", "Lens", "Care"],
-    image: "/assets/senio/device-styled.jpg",
-    imageAlt: "SENIO 앱과 측정기",
-    href: "/senio",
-    actions: [
-      { label: "자세히 보기", href: "/senio", variant: "primary" },
-      { label: "실증·협력 문의", href: "/contact?type=senio", variant: "secondary" },
-    ],
-  },
-  {
-    name: "WITH WELL ME",
-    kind: "웰니스 브랜드",
-    tag: "건강한 행동을 일상으로",
-    body: "걷기, 운동, 건강 루틴, 콘텐츠, 셀프케어 제품을 통해 건강한 생활습관이 지속되도록 돕는 웰니스 브랜드입니다.",
-    pills: ["EAT", "MOVE", "WALK", "CARE", "RECOVER"],
-    image: "/assets/stock/barefoot-trail.jpg",
-    imageAlt: "숲길을 맨발로 걷는 모습",
-    href: SITE.publish.withWellMe ? "/what-we-do/with-well-me" : undefined,
-    actions: [
-      { label: "스토어 바로가기", href: SITE.links.store, variant: "primary", external: true },
-      ...(SITE.publish.withWellMe ? [{ label: "자세히 보기", href: "/what-we-do/with-well-me", variant: "secondary" as const }] : []),
-    ],
-  },
-  {
-    name: "COMMUNITY HEALTH",
-    kind: "오프라인 프로그램",
-    tag: "현장에서 함께 만드는 예방건강관리",
-    body: "지자체·복지기관·기업과 함께 걷기, 운동, 노쇠 예방, 생활습관, 마음건강 프로그램을 운영합니다.",
-    pills: ["걷기", "운동", "노쇠 예방", "생활습관", "마음건강"],
-    image: "/assets/activities/barefoot-7.jpg",
-    imageAlt: "지역 주민과 함께하는 맨발걷기 프로그램",
-    href: SITE.publish.communityHealth ? "/what-we-do/community-health" : undefined,
-    actions: [
-      { label: "프로그램 문의", href: "/contact?type=program", variant: "primary" },
-      ...(SITE.publish.communityHealth ? [{ label: "자세히 보기", href: "/what-we-do/community-health", variant: "secondary" as const }] : []),
-    ],
-  },
-];
-
-export function WhatWeDoPanels() {
+export function WhatWeDoPanels({ data, site }: Props) {
   return (
-    <section className="relative bg-black text-white" aria-label="What We Do">
+    <section className="relative bg-black text-white" aria-label={data.panelTitle}>
       <div className="grid h-[70vh] min-h-[520px] grid-cols-3">
-        {BUSINESSES.map((b, i) => {
+        {data.businesses.map((b, i) => {
+          const { href } = resolve(b, site);
           const inner = (
             <>
               <Image src={b.image} alt={b.imageAlt} fill sizes="34vw" className="object-cover opacity-80 transition-[transform,opacity] duration-700 group-hover:scale-[1.04] group-hover:opacity-100" />
@@ -82,76 +39,78 @@ export function WhatWeDoPanels() {
               </div>
             </>
           );
-          return b.href ? (
-            <Link key={b.name} href={b.href} className={`group relative overflow-hidden ${i === 1 ? "mt-[6vh]" : i === 2 ? "mt-[12vh]" : ""}`}>
+          const cls = `group relative overflow-hidden ${i === 1 ? "mt-[6vh]" : i === 2 ? "mt-[12vh]" : ""}`;
+          return href ? (
+            <Link key={`${b.name}-${i}`} href={href} className={cls}>
               {inner}
             </Link>
           ) : (
-            <div key={b.name} className={`group relative overflow-hidden ${i === 1 ? "mt-[6vh]" : i === 2 ? "mt-[12vh]" : ""}`}>
+            <div key={`${b.name}-${i}`} className={cls}>
               {inner}
             </div>
           );
         })}
       </div>
       <h2 className="t-display pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 px-5 text-center text-[clamp(44px,9vw,128px)] font-extrabold tracking-tight text-white drop-shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
-        What We Do
+        {data.panelTitle}
       </h2>
     </section>
   );
 }
 
-export default function WhatWeDo({ withHeading = true }: { index?: string; withHeading?: boolean }) {
+export default function WhatWeDo({ data, site, withHeading = true }: Props & { withHeading?: boolean }) {
   return (
     <section className="section bg-surface">
       <Container size="wide">
         {withHeading && (
           <Reveal className="text-center">
-            <h2 className="t-h2 text-ink">세 가지 방식으로 건강을 연결합니다</h2>
-            <p className="t-lead mx-auto mt-4 max-w-2xl text-muted">
-              기술·데이터·웰니스·지역사회를 하나의 흐름으로 연결해, 시니어가 자신의 건강을 이해하고 건강한 행동을 지속하도록 돕습니다.
-            </p>
+            <h2 className="t-h2 text-ink">{data.title}</h2>
+            <p className="t-lead mx-auto mt-4 max-w-2xl text-muted">{data.lead}</p>
           </Reveal>
         )}
 
         <div className={`grid gap-6 lg:grid-cols-3 ${withHeading ? "mt-14" : ""}`}>
-          {BUSINESSES.map((biz, i) => (
-            <Reveal key={biz.name} delay={i * 120} className="card card-hover group flex flex-col overflow-hidden">
-              <div className="relative h-56 overflow-hidden">
-                <Image src={biz.image} alt={biz.imageAlt} fill sizes="(min-width:1024px) 440px, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
-                <span className="t-meta absolute left-5 top-5 rounded-md bg-white/90 px-3 py-1 text-[13px] font-bold text-primary backdrop-blur">
-                  {biz.kind}
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col p-8">
-                <h3 className="font-display text-[24px] font-extrabold tracking-tight text-primary">
-                  {biz.href ? (
-                    <Link href={biz.href} className="inline-flex items-center gap-2 hover:underline">
-                      {biz.name}
-                      <IconArrow size={18} className="text-accent-dark opacity-0 transition-opacity group-hover:opacity-100" />
-                    </Link>
-                  ) : (
-                    biz.name
-                  )}
-                </h3>
-                <p className="mt-1 text-[16px] font-semibold text-ink">{biz.tag}</p>
-                <p className="t-body mt-4 flex-1 text-muted">{biz.body}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {biz.pills.map((pill) => (
-                    <span key={pill} className="t-meta rounded-md border border-primary/25 px-3 py-1 text-[13px] font-bold text-primary">
-                      {pill}
-                    </span>
-                  ))}
+          {data.businesses.map((biz, i) => {
+            const { href, actions } = resolve(biz, site);
+            return (
+              <Reveal key={`${biz.name}-${i}`} delay={i * 120} className="card card-hover group flex flex-col overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
+                  <Image src={biz.image} alt={biz.imageAlt} fill sizes="(min-width:1024px) 440px, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+                  <span className="t-meta absolute left-5 top-5 rounded-md bg-white/90 px-3 py-1 text-[13px] font-bold text-primary backdrop-blur">
+                    {biz.kind}
+                  </span>
                 </div>
-                <div className="mt-7 flex flex-wrap gap-2.5">
-                  {biz.actions.map((action) => (
-                    <Button key={action.label} href={action.href} variant={action.variant} size="sm" external={action.external}>
-                      {action.label}
-                    </Button>
-                  ))}
+                <div className="flex flex-1 flex-col p-8">
+                  <h3 className="font-display text-[24px] font-extrabold tracking-tight text-primary">
+                    {href ? (
+                      <Link href={href} className="inline-flex items-center gap-2 hover:underline">
+                        {biz.name}
+                        <IconArrow size={18} className="text-accent-dark opacity-0 transition-opacity group-hover:opacity-100" />
+                      </Link>
+                    ) : (
+                      biz.name
+                    )}
+                  </h3>
+                  <p className="mt-1 text-[16px] font-semibold text-ink">{biz.tag}</p>
+                  <p className="t-body mt-4 flex-1 text-muted">{biz.body}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {biz.pills.map((pill) => (
+                      <span key={pill} className="t-meta rounded-md border border-primary/25 px-3 py-1 text-[13px] font-bold text-primary">
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-7 flex flex-wrap gap-2.5">
+                    {actions.map((action) => (
+                      <Button key={action.label} href={action.href} variant={action.variant} size="sm" external={action.external}>
+                        {action.label}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </Container>
     </section>

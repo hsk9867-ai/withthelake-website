@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { IconExternal } from "@/components/Icons";
-import { formatPrice, type Product } from "@/content/products";
+import { formatPrice } from "@/lib/asset";
+import type { Product } from "@/lib/cms/types";
 
 export default function ProductCard({ product }: { product: Product }) {
   const discount =
@@ -17,13 +18,15 @@ export default function ProductCard({ product }: { product: Product }) {
       aria-label={`${product.brand} ${product.name} — 네이버 스마트스토어에서 보기`}
     >
       <div className="relative aspect-square overflow-hidden bg-cream">
-        <Image
-          src={product.image}
-          alt=""
-          fill
-          sizes="(min-width:1024px) 300px, (min-width:640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-        />
+        {product.image && (
+          <Image
+            src={product.image}
+            alt=""
+            fill
+            sizes="(min-width:1024px) 300px, (min-width:640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        )}
         {product.badge && (
           <span className="t-meta absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-[13px] font-semibold text-white">
             {product.badge}

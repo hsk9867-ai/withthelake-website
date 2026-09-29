@@ -208,3 +208,31 @@ export function IconPhone({ size = 20, ...p }: P) {
     </svg>
   );
 }
+
+/** 관리자에서 이름으로 고르는 아이콘 목록 (콘텐츠 JSON 에는 이름만 저장) */
+export const ICONS = {
+  measure: IconMeasure,
+  understand: IconUnderstand,
+  walk: IconWalk,
+  continue: IconContinue,
+  trend: IconTrend,
+  loop: IconLoop,
+  glucose: IconGlucose,
+  liver: IconLiver,
+  kidney: IconKidney,
+  strip: IconStrip,
+  device: IconDevice,
+  dashboard: IconDashboard,
+  building: IconBuilding,
+  care: IconCare,
+  badge: IconBadge,
+  home: IconHome,
+} as const;
+
+export type IconKey = keyof typeof ICONS;
+export const ICON_NAMES = Object.keys(ICONS) as IconKey[];
+
+export function IconByName({ name, size = 24, ...p }: P & { name: string }) {
+  const Icon = ICONS[name as IconKey] ?? IconBadge;
+  return <Icon size={size} {...p} />;
+}

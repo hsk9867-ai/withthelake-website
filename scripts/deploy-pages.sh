@@ -10,12 +10,20 @@ REMOTE="${REMOTE:-origin}"
 
 cd "$(dirname "$0")/.."
 
-# 정적 내보내기에서는 서버 API 를 쓸 수 없으므로 잠시 치워 둡니다 (문의 폼은 mailto 로 대체).
-API_DIR="src/app/api"
+# 정적 내보내기에서는 서버 API 와 관리자 페이지(서버 액션·쿠키)를 쓸 수 없으므로 잠시 치워 둡니다.
+# 문의 폼은 mailto 로 대체되고, 콘텐츠는 content/site-content.json 의 저장본이 그대로 빌드에 들어갑니다.
+SERVER_DIRS="api admin uploads"
 BACKUP="$(mktemp -d)"
-restore() { [ -d "$BACKUP/api" ] && rm -rf "$API_DIR" && mv "$BACKUP/api" "$API_DIR"; }
+restore() {
+  for d in $SERVER_DIRS; do
+    [ -d "$BACKUP/$d" ] && rm -rf "src/app/$d" && mv "$BACKUP/$d" "src/app/$d"
+  done
+  return 0
+}
 trap restore EXIT
-mv "$API_DIR" "$BACKUP/api"
+for d in $SERVER_DIRS; do
+  [ -d "src/app/$d" ] && mv "src/app/$d" "$BACKUP/$d"
+done
 
 rm -rf out .next
 GITHUB_PAGES=true \

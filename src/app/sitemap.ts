@@ -1,11 +1,12 @@
 export const dynamic = "force-static";
 
 import type { MetadataRoute } from "next";
-import { SITE } from "@/content/site";
-import { STORIES } from "@/content/stories";
+import { SITE_URL } from "@/lib/asset";
+import { getContent } from "@/lib/cms/store";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = SITE.url.replace(/\/$/, "");
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { site, story } = await getContent();
+  const base = SITE_URL.replace(/\/$/, "");
   const now = new Date();
 
   const pages: MetadataRoute.Sitemap = [
@@ -19,17 +20,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
   ];
 
-  if (SITE.publish.withWellMe) {
+  if (site.publish.withWellMe) {
     pages.push({ url: `${base}/what-we-do/with-well-me`, lastModified: now, changeFrequency: "monthly", priority: 0.7 });
   }
-  if (SITE.publish.communityHealth) {
+  if (site.publish.communityHealth) {
     pages.push({ url: `${base}/what-we-do/community-health`, lastModified: now, changeFrequency: "monthly", priority: 0.7 });
   }
 
-  for (const s of STORIES) {
+  for (const s of story.items) {
+    const parsed = new Date(s.date.replaceAll(".", "-"));
     pages.push({
       url: `${base}/story/${s.slug}`,
-      lastModified: new Date(s.date.replaceAll(".", "-")),
+      lastModified: Number.isNaN(parsed.getTime()) ? now : parsed,
       changeFrequency: "yearly",
       priority: 0.5,
     });

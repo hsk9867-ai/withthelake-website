@@ -13,7 +13,7 @@ type ContactPayload = {
   website?: string; // honeypot
 };
 
-const INQUIRY_TYPES = new Set(["사업·협력", "SENIO 실증·도입", "프로그램 운영", "제품·구매", "기타"]);
+import { getContent } from "@/lib/cms/store";
 
 function clean(v: unknown, max = 500) {
   return typeof v === "string" ? v.trim().slice(0, max) : "";
@@ -109,7 +109,8 @@ export async function POST(request: Request) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
     return NextResponse.json({ ok: false, error: "이메일 형식을 확인해 주세요." }, { status: 400 });
   }
-  if (!INQUIRY_TYPES.has(payload.inquiryType)) {
+  const { contact } = await getContent();
+  if (!contact.form.inquiryTypes.includes(payload.inquiryType)) {
     return NextResponse.json({ ok: false, error: "문의 유형을 선택해 주세요." }, { status: 400 });
   }
   if (!payload.agree) {

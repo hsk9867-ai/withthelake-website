@@ -3,24 +3,11 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { SITE, asset } from "@/content/site";
+import { asset } from "@/lib/asset";
+import type { ContactContent } from "@/lib/cms/types";
 
-export const INQUIRY_TYPES = [
-  "사업·협력",
-  "SENIO 실증·도입",
-  "프로그램 운영",
-  "제품·구매",
-  "기타",
-] as const;
-
-/** ?type= 쿼리로 문의 유형을 미리 선택할 수 있습니다 (예: /contact?type=senio) */
-const TYPE_ALIAS: Record<string, (typeof INQUIRY_TYPES)[number]> = {
-  business: "사업·협력",
-  senio: "SENIO 실증·도입",
-  program: "프로그램 운영",
-  product: "제품·구매",
-  other: "기타",
-};
+/** ?type= 쿼리로 문의 유형을 미리 선택할 수 있습니다 (예: /contact?type=senio). 값은 유형 목록의 순서와 짝지어집니다. */
+const TYPE_ALIAS = ["business", "senio", "program", "product", "other"];
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -37,23 +24,25 @@ function Req() {
   );
 }
 
-export default function ContactForm() {
+export default function ContactForm({ email, form }: { email: string; form: ContactContent["form"] }) {
   const params = useSearchParams();
-  const preset = TYPE_ALIAS[params.get("type") ?? ""] ?? "";
+  const types = form.inquiryTypes;
+  const aliasIndex = TYPE_ALIAS.indexOf(params.get("type") ?? "");
+  const preset = aliasIndex >= 0 ? (types[aliasIndex] ?? "") : "";
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    if (!form.checkValidity()) {
-      form.reportValidity();
+    const formEl = e.currentTarget;
+    if (!formEl.checkValidity()) {
+      formEl.reportValidity();
       return;
     }
     setStatus("submitting");
     setErrorMessage("");
 
-    const data = new FormData(form);
+    const data = new FormData(formEl);
     const payload = {
       company: data.get("company"),
       department: data.get("department"),
@@ -79,10 +68,10 @@ export default function ContactForm() {
         "",
         String(payload.message ?? ""),
       ];
-      const url = `mailto:${SITE.contact.email}?subject=${encodeURIComponent(`[홈페이지 문의] ${payload.inquiryType} · ${payload.company}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
+      const url = `mailto:${email}?subject=${encodeURIComponent(`[홈페이지 문의] ${payload.inquiryType} · ${payload.company}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
       window.location.href = url;
       setStatus("success");
-      form.reset();
+      formEl.reset();
     };
 
     try {
@@ -102,7 +91,7 @@ export default function ContactForm() {
       }
 
       setStatus("success");
-      form.reset();
+      formEl.reset();
     } catch {
       fallbackMailto();
     }
@@ -112,8 +101,8 @@ export default function ContactForm() {
     return (
       <div className="rounded-2xl bg-primary-light p-10 text-center" role="status">
         <p className="eyebrow text-accent-deep">접수 완료</p>
-        <h2 className="t-h3 mt-3 text-primary">문의가 접수되었습니다</h2>
-        <p className="t-body mt-3 text-ink-2">보내주신 내용을 확인한 뒤 담당자가 순차적으로 연락드리겠습니다.</p>
+        <h2 className="t-h3 mt-3 text-primary">{form.successTitle}</h2>
+        <p className="t-body mt-3 text-ink-2">{form.successBody}</p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
@@ -170,7 +159,7 @@ export default function ContactForm() {
           <option value="" disabled>
             선택해 주세요
           </option>
-          {INQUIRY_TYPES.map((type) => (
+          {types.map((type) => (
             <option key={type} value={type}>
               {type}
             </option>
@@ -187,7 +176,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={7}
-          placeholder="기관 유형, 이용자 규모, 희망 일정 등을 함께 적어 주시면 상담이 빨라집니다."
+          placeholder={form.placeholder}
           className={`${inputClass} min-h-0 py-3`}
         />
       </div>

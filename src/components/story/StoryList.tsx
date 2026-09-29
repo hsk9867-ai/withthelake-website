@@ -4,17 +4,16 @@ import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import StoryCard from "./StoryCard";
 import Reveal from "@/components/Reveal";
-import { STORY_CATEGORIES, type Story, type StoryCategory } from "@/content/stories";
+import type { Story } from "@/lib/cms/types";
 
 const ALL = "전체";
 
-export default function StoryList({ stories }: { stories: Story[] }) {
+export default function StoryList({ stories, categories }: { stories: Story[]; categories: string[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
   const raw = params.get("category");
-  const active: StoryCategory | typeof ALL =
-    raw && (STORY_CATEGORIES as string[]).includes(raw) ? (raw as StoryCategory) : ALL;
+  const active = raw && categories.includes(raw) ? raw : ALL;
 
   const filtered = useMemo(
     () => (active === ALL ? stories : stories.filter((s) => s.category === active)),
@@ -38,7 +37,7 @@ export default function StoryList({ stories }: { stories: Story[] }) {
   return (
     <>
       <div role="tablist" aria-label="카테고리" className="flex flex-wrap gap-2">
-        {[ALL, ...STORY_CATEGORIES].map((c) => {
+        {[ALL, ...categories].map((c) => {
           const on = c === active;
           return (
             <button

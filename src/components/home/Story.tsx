@@ -3,24 +3,22 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import Reveal from "@/components/Reveal";
 import { IconArrow } from "@/components/Icons";
-import { getFeaturedStories } from "@/content/stories";
+import type { HomeContent, Story as StoryItem } from "@/lib/cms/types";
 
 /**
  * 레퍼런스 Media Center 카드: 이미지 · 제목 · "카테고리 | 날짜" · Read More 버튼.
  */
-export default function Story() {
-  const stories = getFeaturedStories(3);
-
+export default function Story({ data, stories }: { data: HomeContent["story"]; stories: StoryItem[] }) {
   return (
     <section className="section border-t border-line bg-surface">
       <Container size="wide">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <h2 className="t-en text-ink">Story</h2>
-            <p className="t-lead mt-3 text-muted">현장에서 만드는 건강한 변화</p>
+            <h2 className="t-en text-ink">{data.title}</h2>
+            <p className="t-lead mt-3 text-muted">{data.lead}</p>
           </div>
           <Link href="/story" className="t-meta inline-flex items-center gap-2 font-bold text-primary hover:underline">
-            STORY 전체 보기 <IconArrow size={16} />
+            {data.moreLabel} <IconArrow size={16} />
           </Link>
         </Reveal>
 

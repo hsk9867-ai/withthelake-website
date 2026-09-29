@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SITE } from "@/content/site";
+import type { SiteSettings } from "@/lib/cms/types";
 
 /**
  * 레퍼런스 스타일 헤더:
@@ -12,65 +12,68 @@ import { SITE } from "@/content/site";
  * - 서브페이지는 항상 네이비 바
  * - 우측: CONTACT 링크 + 햄버거 → 전체화면 사이트맵 메뉴
  */
-const MENU = [
-  {
-    title: "ABOUT",
-    href: "/about",
-    links: [
-      { label: "회사소개", href: "/about" },
-      { label: "Nature × Human × Science", href: "/about#identity" },
-    ],
-  },
-  {
-    title: "WHAT WE DO",
-    href: "/what-we-do",
-    links: [
-      { label: "SENIO", href: "/senio" },
-      ...(SITE.publish.withWellMe ? [{ label: "WITH WELL ME", href: "/what-we-do/with-well-me" }] : []),
-      ...(SITE.publish.communityHealth ? [{ label: "COMMUNITY HEALTH", href: "/what-we-do/community-health" }] : []),
-    ],
-  },
-  {
-    title: "IMPACT",
-    href: "/impact",
-    links: [
-      { label: "주요 프로젝트", href: "/impact#projects" },
-      { label: "실증 현황", href: "/impact#pilots" },
-      { label: "R&D · 지식재산", href: "/impact#rnd" },
-      { label: "인증 · 수상 · 선정", href: "/impact#awards" },
-      { label: "파트너", href: "/impact#partners" },
-      { label: "연혁", href: "/impact#history" },
-    ],
-  },
-  {
-    title: "STORY",
-    href: "/story",
-    links: [
-      { label: "맨발걷기 정보", href: "/story?category=맨발걷기 정보" },
-      { label: "힐링로드ON", href: "/story?category=힐링로드ON" },
-      { label: "NEWS", href: "/story?category=NEWS" },
-    ],
-  },
-  {
-    title: "STORE",
-    href: "/store",
-    links: [{ label: "네이버 스마트스토어", href: SITE.links.store, external: true }],
-  },
-  {
-    title: "CONTACT",
-    href: "/contact",
-    links: [
-      { label: "문의하기", href: "/contact" },
-      { label: "개인정보 처리방침", href: "/privacy" },
-    ],
-  },
-];
+function buildMenu(site: SiteSettings) {
+  return [
+    {
+      title: "ABOUT",
+      href: "/about",
+      links: [
+        { label: "회사소개", href: "/about" },
+        { label: "Nature × Human × Science", href: "/about#identity" },
+      ],
+    },
+    {
+      title: "WHAT WE DO",
+      href: "/what-we-do",
+      links: [
+        { label: "SENIO", href: "/senio" },
+        ...(site.publish.withWellMe ? [{ label: "WITH WELL ME", href: "/what-we-do/with-well-me" }] : []),
+        ...(site.publish.communityHealth ? [{ label: "COMMUNITY HEALTH", href: "/what-we-do/community-health" }] : []),
+      ],
+    },
+    {
+      title: "IMPACT",
+      href: "/impact",
+      links: [
+        { label: "주요 프로젝트", href: "/impact#projects" },
+        { label: "실증 현황", href: "/impact#pilots" },
+        { label: "R&D · 지식재산", href: "/impact#rnd" },
+        { label: "인증 · 수상 · 선정", href: "/impact#awards" },
+        { label: "파트너", href: "/impact#partners" },
+        { label: "연혁", href: "/impact#history" },
+      ],
+    },
+    {
+      title: "STORY",
+      href: "/story",
+      links: [
+        { label: "맨발걷기 정보", href: "/story?category=맨발걷기 정보" },
+        { label: "힐링로드ON", href: "/story?category=힐링로드ON" },
+        { label: "NEWS", href: "/story?category=NEWS" },
+      ],
+    },
+    {
+      title: "STORE",
+      href: "/store",
+      links: [{ label: "네이버 스마트스토어", href: site.links.store, external: true }],
+    },
+    {
+      title: "CONTACT",
+      href: "/contact",
+      links: [
+        { label: "문의하기", href: "/contact" },
+        { label: "개인정보 처리방침", href: "/privacy" },
+      ],
+    },
+  ];
+}
 
-export default function Header() {
+export default function Header({ site }: { site: SiteSettings }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const MENU = buildMenu(site);
 
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
@@ -112,7 +115,7 @@ export default function Header() {
           <Link href="/" className="flex shrink-0 items-center" aria-label="위드더레이크 홈">
             <Image
               src="/assets/logo/with-the-lake-white.png"
-              alt="WITH THE LAKE"
+              alt={site.nameEn}
               width={1780}
               height={580}
               priority
@@ -189,13 +192,13 @@ export default function Header() {
 
           <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-[15px] text-white/60 md:flex-row md:items-center md:justify-between">
             <p>
-              {SITE.name} · {SITE.contact.phone} · {SITE.contact.email}
+              {site.name} · {site.contact.phone} · {site.contact.email}
             </p>
             <div className="flex gap-5">
-              <a href={SITE.links.cafe} target="_blank" rel="noreferrer" className="hover:text-white">힐링로드ON 카페</a>
-              <a href={SITE.links.blog} target="_blank" rel="noreferrer" className="hover:text-white">블로그</a>
-              <a href={SITE.links.instagram} target="_blank" rel="noreferrer" className="hover:text-white">Instagram</a>
-              <a href={SITE.links.youtube} target="_blank" rel="noreferrer" className="hover:text-white">YouTube</a>
+              <a href={site.links.cafe} target="_blank" rel="noreferrer" className="hover:text-white">힐링로드ON 카페</a>
+              <a href={site.links.blog} target="_blank" rel="noreferrer" className="hover:text-white">블로그</a>
+              <a href={site.links.instagram} target="_blank" rel="noreferrer" className="hover:text-white">Instagram</a>
+              <a href={site.links.youtube} target="_blank" rel="noreferrer" className="hover:text-white">YouTube</a>
             </div>
           </div>
         </div>
