@@ -34,8 +34,8 @@ function buildColumns(site: SiteSettings) {
     {
       title: "스토리",
       links: [
-        { label: "맨발걷기 정보", href: "/story?category=맨발걷기 정보" },
-        { label: "힐링로드ON", href: "/story?category=힐링로드ON" },
+        { label: "힐링로드 ON", href: "/healing" },
+        { label: "맨발걷기 정보", href: "/info" },
         { label: "NEWS", href: "/story?category=NEWS" },
       ],
     },

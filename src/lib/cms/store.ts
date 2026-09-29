@@ -209,8 +209,15 @@ const ALLOWED = new Map<string, string>([
   ["image/gif", "gif"],
   ["image/svg+xml", "svg"],
   ["video/mp4", "mp4"],
+  ["audio/wav", "wav"],
+  ["audio/x-wav", "wav"],
+  ["audio/wave", "wav"],
+  ["audio/mpeg", "mp3"],
+  ["audio/mp4", "m4a"],
+  ["audio/x-m4a", "m4a"],
+  ["audio/ogg", "ogg"],
 ]);
-export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
+export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
 function safeName(name: string) {
   const base = name
@@ -226,8 +233,8 @@ function safeName(name: string) {
 /** 파일을 저장하고 사이트에서 쓸 수 있는 URL(경로)을 돌려줍니다. */
 export async function saveUpload(file: File): Promise<string> {
   const ext = ALLOWED.get(file.type);
-  if (!ext) throw new Error("JPG · PNG · WebP · GIF · SVG · MP4 파일만 올릴 수 있습니다.");
-  if (file.size > MAX_UPLOAD_BYTES) throw new Error("파일은 8MB 이하여야 합니다.");
+  if (!ext) throw new Error("JPG · PNG · WebP · GIF · SVG · MP4 · WAV · MP3 · M4A 파일만 올릴 수 있습니다.");
+  if (file.size > MAX_UPLOAD_BYTES) throw new Error("파일은 25MB 이하여야 합니다.");
   const name = `${safeName(file.name)}.${ext}`;
   const data = Buffer.from(await file.arrayBuffer());
 

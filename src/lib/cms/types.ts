@@ -269,6 +269,42 @@ export type PrivacyContent = {
   sections: { title: string; body: string[] }[];
 };
 
+/** /info — 맨발걷기 정보 페이지 */
+export type InfoContent = {
+  meta: Meta;
+  header: PageHeaderContent;
+  what: { eyebrow: string; title: string; body: string[]; linkLabel: string; linkUrl: string };
+  benefits: { eyebrow: string; title: string; lead: string; items: { title: string; body: string; source: string; url: string }[] };
+  method: { eyebrow: string; title: string; steps: { emoji: string; title: string; body: string }[] };
+  safety: { eyebrow: string; title: string; items: { title: string; body: string }[]; disclaimer: string };
+  research: { eyebrow: string; title: string; lead: string; items: { tag: string; title: string; body: string; source: string; url: string }[]; moreLabel: string; moreUrl: string };
+  cta: { title: string; body: string; buttonLabel: string; buttonUrl: string };
+};
+
+/** 힐링로드 ON 오디오 항목. src 는 관리자에서 올린 파일 주소(비어 있으면 '준비 중'으로 표시) */
+export type HealingAudioItem = { title: string; description: string; emoji: string; src: string };
+export type HealingTrailItem = HealingAudioItem & { region: string; distance: string; walkingTime: string; difficulty: string };
+
+/** /healing — 힐링로드 ON 워킹 테라피 페이지 */
+export type HealingContent = {
+  meta: Meta;
+  header: PageHeaderContent;
+  features: { emoji: string; title: string; body: string; anchor: string }[];
+  audio: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    walkGuides: { label: string; description: string; items: HealingAudioItem[] };
+    affirmations: { label: string; description: string; items: HealingAudioItem[] };
+    trailGuides: { label: string; description: string; items: HealingTrailItem[] };
+  };
+  trails: { eyebrow: string; title: string; lead: string };
+  record: { eyebrow: string; title: string; lead: string; moods: { emoji: string; label: string }[]; note: string };
+  survey: { title: string; body: string; buttonLabel: string; url: string };
+  store: { title: string; body: string; buttonLabel: string };
+  community: { title: string; body: string; buttonLabel: string };
+};
+
 export type SiteContent = {
   site: SiteSettings;
   home: HomeContent;
@@ -282,10 +318,12 @@ export type SiteContent = {
   store: StoreContent;
   contact: ContactContent;
   privacy: PrivacyContent;
+  info: InfoContent;
+  healing: HealingContent;
 };
 
 export type SectionKey = keyof SiteContent;
 export const SECTION_KEYS: SectionKey[] = [
   "site", "home", "about", "whatWeDo", "withWellMe", "communityHealth",
-  "senio", "impact", "story", "store", "contact", "privacy",
+  "senio", "impact", "story", "store", "contact", "privacy", "info", "healing",
 ];

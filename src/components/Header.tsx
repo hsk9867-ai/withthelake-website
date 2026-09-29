@@ -32,6 +32,14 @@ function buildMenu(site: SiteSettings) {
       ],
     },
     {
+      title: "힐링로드 ON",
+      href: "/healing",
+      links: [
+        { label: "힐링로드 ON", href: "/healing" },
+        { label: "맨발걷기 정보", href: "/info" },
+      ],
+    },
+    {
       title: "IMPACT",
       href: "/impact",
       links: [

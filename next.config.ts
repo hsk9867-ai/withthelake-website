@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
       }),
   experimental: {
     // 관리자 이미지 업로드(서버 액션) 용량
-    serverActions: { bodySizeLimit: "10mb" },
+    serverActions: { bodySizeLimit: "30mb" },
   },
 };
 

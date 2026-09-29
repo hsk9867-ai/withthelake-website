@@ -120,6 +120,7 @@ function FieldInput({ field, value, onChange }: { field: Field; value: unknown; 
         </div>
       );
     case "image":
+    case "audio":
       return <ImageInput id={id} field={field} value={String(value ?? "")} onChange={onChange} />;
     case "group": {
       const obj = (value && typeof value === "object" ? value : {}) as Json;
@@ -209,11 +210,13 @@ function ListInput({ field, value, onChange }: { field: Extract<Field, { type: "
   );
 }
 
-function ImageInput({ id, field, value, onChange }: { id: string; field: Extract<Field, { type: "image" }>; value: string; onChange: (v: string) => void }) {
+function ImageInput({ id, field, value, onChange }: { id: string; field: Extract<Field, { type: "image" | "audio" }>; value: string; onChange: (v: string) => void }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const isVideo = /\.mp4($|\?)/i.test(value);
+  const isAudioField = field.type === "audio";
+  const isAudio = isAudioField || /\.(wav|mp3|m4a|ogg)($|\?)/i.test(value);
 
   async function upload(file: File) {
     setBusy(true);
@@ -233,7 +236,12 @@ function ImageInput({ id, field, value, onChange }: { id: string; field: Extract
       <div className="mt-1.5 flex flex-wrap items-start gap-3">
         {value ? (
           <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-md border border-line bg-cream">
-            {isVideo ? (
+            {isAudio ? (
+              <span className="flex h-full flex-col items-center justify-center gap-1 text-[12px] font-semibold text-muted">
+                오디오
+                <audio src={value} controls preload="none" className="h-7 w-24" />
+              </span>
+            ) : isVideo ? (
               <span className="flex h-full items-center justify-center text-[12px] font-semibold text-muted">MP4</span>
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
@@ -246,7 +254,14 @@ function ImageInput({ id, field, value, onChange }: { id: string; field: Extract
         <div className="min-w-0 flex-1 space-y-2">
           <input id={id} className={inputCls} value={value} placeholder="/assets/... 또는 https://..." onChange={(e) => onChange(e.target.value)} />
           <div className="flex flex-wrap items-center gap-2">
-            <input ref={fileRef} type="file" accept="image/*,video/mp4" className="text-[12px]" disabled={busy} onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])} />
+            <input
+              ref={fileRef}
+              type="file"
+              accept={isAudioField ? "audio/*,.wav,.mp3,.m4a" : "image/*,video/mp4"}
+              className="text-[12px]"
+              disabled={busy}
+              onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])}
+            />
             {busy && <span className="text-[12px] text-muted">올리는 중...</span>}
             {value && (
               <button type="button" onClick={() => onChange("")} className="text-[12px] font-semibold text-danger hover:underline">

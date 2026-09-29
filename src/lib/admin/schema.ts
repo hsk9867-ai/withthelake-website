@@ -10,6 +10,7 @@ export type Field =
   | { type: "text"; key: string; label: string; help?: string }
   | { type: "textarea"; key: string; label: string; help?: string; rows?: number }
   | { type: "image"; key: string; label: string; help?: string }
+  | { type: "audio"; key: string; label: string; help?: string }
   | { type: "number"; key: string; label: string; help?: string }
   | { type: "boolean"; key: string; label: string; help?: string }
   | { type: "select"; key: string; label: string; options: string[]; help?: string }
@@ -23,6 +24,7 @@ export type SectionDef = { label: string; description: string; preview: string; 
 const t = (key: string, label: string, help?: string): Field => ({ type: "text", key, label, help });
 const ta = (key: string, label: string, help?: string, rows?: number): Field => ({ type: "textarea", key, label, help, rows });
 const img = (key: string, label: string, help?: string): Field => ({ type: "image", key, label, help });
+const audio = (key: string, label: string, help?: string): Field => ({ type: "audio", key, label, help });
 const num = (key: string, label: string, help?: string): Field => ({ type: "number", key, label, help });
 const bool = (key: string, label: string, help?: string): Field => ({ type: "boolean", key, label, help });
 const sel = (key: string, label: string, options: string[], help?: string): Field => ({ type: "select", key, label, options, help });
@@ -406,6 +408,67 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     preview: "/privacy",
     fields: [meta, header(false), list("sections", "조항", [t("title", "제목"), paras("body", "내용", "문단 사이는 빈 줄로 구분합니다.")], "title")],
   },
+
+  info: {
+    label: "맨발걷기 정보",
+    description: "/info 페이지. 맨발걷기란 · 효과 · 올바른 방법 · 주의사항 · 관련 연구 자료 · 힐링로드 ON 안내.",
+    preview: "/info",
+    fields: [
+      meta,
+      header(false),
+      grp("what", "맨발걷기란?", [t("eyebrow", "영문 타이틀"), t("title", "제목"), paras("body", "본문"), t("linkLabel", "참고 링크 문구"), t("linkUrl", "참고 링크 주소")]),
+      grp("benefits", "과학적으로 보고된 효과", [
+        t("eyebrow", "영문 타이틀"),
+        t("title", "제목"),
+        ta("lead", "소개 문장"),
+        list("items", "효과 목록", [t("title", "제목"), ta("body", "설명"), t("source", "출처 이름"), t("url", "출처 링크")], "title"),
+      ]),
+      grp("method", "올바른 맨발걷기 방법", [t("eyebrow", "영문 타이틀"), t("title", "제목"), list("steps", "단계", [t("emoji", "이모지"), t("title", "제목"), ta("body", "설명")], "title")]),
+      grp("safety", "주의사항", [t("eyebrow", "영문 타이틀"), t("title", "제목"), list("items", "주의 항목", [t("title", "제목"), ta("body", "설명")], "title"), ta("disclaimer", "면책 문구")]),
+      grp("research", "관련 연구 자료", [
+        t("eyebrow", "영문 타이틀"),
+        t("title", "제목"),
+        ta("lead", "소개 문장"),
+        list("items", "자료 목록", [t("tag", "분류"), t("title", "논문·기사 제목"), ta("body", "요약"), t("source", "출처"), t("url", "링크")], "title"),
+        t("moreLabel", "더보기 버튼 문구"),
+        t("moreUrl", "더보기 링크"),
+      ]),
+      grp("cta", "마무리 안내", [t("title", "제목"), ta("body", "설명"), t("buttonLabel", "버튼 문구"), t("buttonUrl", "버튼 링크")]),
+    ],
+  },
+
+  healing: {
+    label: "힐링로드 ON",
+    description: "/healing 페이지. 걷기 안내 · 긍정확언 · 길 안내 오디오, 감정 기록, 설문조사, 스토어 안내. 오디오 파일은 각 항목에서 올립니다(WAV · MP3 · M4A, 25MB 이하).",
+    preview: "/healing",
+    fields: [
+      meta,
+      header(false),
+      list("features", "상단 기능 카드", [t("emoji", "이모지"), t("title", "제목"), t("body", "설명"), t("anchor", "이동할 섹션 id", "audio · trails · record · survey 중 하나")], "title"),
+      grp("audio", "오디오 듣기", [
+        t("eyebrow", "영문 타이틀"),
+        t("title", "제목"),
+        ta("lead", "소개 문장"),
+        grp("walkGuides", "걷기 안내", [t("label", "탭 이름"), t("description", "탭 설명"), list("items", "오디오", [t("emoji", "이모지"), t("title", "제목"), ta("description", "설명"), audio("src", "오디오 파일")], "title")]),
+        grp("affirmations", "긍정확언", [t("label", "탭 이름"), t("description", "탭 설명"), list("items", "오디오", [t("emoji", "이모지"), t("title", "제목"), ta("description", "확언 문장"), audio("src", "오디오 파일")], "title")]),
+        grp("trailGuides", "길 안내", [
+          t("label", "탭 이름"),
+          t("description", "탭 설명"),
+          list(
+            "items",
+            "산책로",
+            [t("emoji", "이모지"), t("title", "코스 이름"), ta("description", "코스 설명"), t("region", "지역"), t("distance", "거리"), t("walkingTime", "소요 시간"), t("difficulty", "난이도", "쉬움 · 보통 · 어려움"), audio("src", "안내 오디오")],
+            "title",
+          ),
+        ]),
+      ]),
+      grp("trails", "길 안내 섹션 문구", [t("eyebrow", "영문 타이틀"), t("title", "제목"), ta("lead", "소개 문장")]),
+      grp("record", "기록하기", [t("eyebrow", "영문 타이틀"), t("title", "제목"), ta("lead", "소개 문장"), list("moods", "감정 선택지", [t("emoji", "이모지"), t("label", "이름")], "label"), ta("note", "안내 문구")]),
+      grp("survey", "설문조사", [t("title", "제목"), ta("body", "설명"), t("buttonLabel", "버튼 문구"), t("url", "설문 링크")]),
+      grp("store", "스토어 안내", [t("title", "제목"), ta("body", "설명"), t("buttonLabel", "버튼 문구", "링크는 사이트 기본 정보 > 네이버 스마트스토어를 씁니다.")]),
+      grp("community", "커뮤니티 안내", [t("title", "제목"), ta("body", "설명"), t("buttonLabel", "버튼 문구", "링크는 사이트 기본 정보 > 네이버 카페를 씁니다.")]),
+    ],
+  },
 };
 
-export const SECTION_ORDER: SectionKey[] = ["site", "home", "about", "whatWeDo", "senio", "withWellMe", "communityHealth", "impact", "story", "store", "contact", "privacy"];
+export const SECTION_ORDER: SectionKey[] = ["site", "home", "about", "whatWeDo", "senio", "withWellMe", "communityHealth", "healing", "info", "impact", "story", "store", "contact", "privacy"];
