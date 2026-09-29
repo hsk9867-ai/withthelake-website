@@ -75,6 +75,13 @@ Cloudflare Workers 에 OpenNext 어댑터로 올립니다. 콘텐츠 저장은 S
    npx wrangler secret put RESEND_API_KEY          # 문의 메일을 쓸 때만
    ```
 4. 배포: `npm run cf:deploy` (로컬 미리보기: `npm run cf:preview`). 배포 주소의 `/admin` 이 관리자 페이지입니다.
+   - Windows 에서 `cf:deploy` / `cf:preview` 가 "Workers runtime failed to start" 로 실패하면(워커 런타임이 한글 경로에서 크래시) 다음 두 명령으로 배포합니다.
+     ```bash
+     npx opennextjs-cloudflare build
+     OPEN_NEXT_DEPLOY=true npx wrangler deploy      # PowerShell: $env:OPEN_NEXT_DEPLOY="true"; npx wrangler deploy
+     ```
+
+현재 배포: https://withthelake-website.hsk9867.workers.dev (관리자: `/admin`). 비밀값 변경은 `npx wrangler secret put <이름>`, 목록은 `npx wrangler secret list`.
 - 코드 쪽 기본값은 `src/lib/cms/defaults.ts`, 타입은 `src/lib/cms/types.ts`, 관리자 폼 정의는 `src/lib/admin/schema.ts` 에 있습니다. 새 필드를 추가하면 세 파일을 함께 수정합니다.
 
 ## 콘텐츠 파일
