@@ -15,7 +15,7 @@
   "observability": { "enabled": true },
   "vars": {
     "NEXT_PUBLIC_SITE_URL": "https://withthelake-website.workers.dev",
-    "SUPABASE_URL": "",
+    "SUPABASE_URL": "https://hjffplrqhvmwdownfbhg.supabase.co",
     "SUPABASE_BUCKET": "uploads",
     "CONTACT_TO_EMAIL": "contact@withthelake.com",
     "CONTACT_FROM_EMAIL": "WITH THE LAKE <noreply@withthelake.com>"
