@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { requireAdminPage } from "@/lib/admin/auth";
 import { getContent, getStoreMode, hasStoredContent } from "@/lib/cms/store";
 import { SECTIONS, SECTION_ORDER } from "@/lib/admin/schema";
 import ImportForm from "../ImportForm";
@@ -6,6 +7,7 @@ import ImportForm from "../ImportForm";
 export const dynamic = "force-dynamic";
 
 export default async function AdminHome() {
+  await requireAdminPage("/admin");
   const [content, stored] = await Promise.all([getContent(), hasStoredContent()]);
   const mode = getStoreMode();
   const isVercelWithoutStore = process.env.VERCEL === "1" && mode === "file";

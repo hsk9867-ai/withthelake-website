@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { requireAdminPage } from "@/lib/admin/auth";
 import { getContent } from "@/lib/cms/store";
 import { SECTIONS } from "@/lib/admin/schema";
 import { SECTION_KEYS, type SectionKey } from "@/lib/cms/types";
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/admin/[section]">
 
 export default async function AdminSectionPage({ params }: PageProps<"/admin/[section]">) {
   const { section } = await params;
+  await requireAdminPage(`/admin/${section}`);
   const key = asKey(section);
   if (!key) notFound();
   const content = await getContent();

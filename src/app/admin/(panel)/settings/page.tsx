@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AUTH_PATH, MIN_PASSWORD_LENGTH, passwordSource } from "@/lib/admin/auth";
+import { AUTH_PATH, MIN_PASSWORD_LENGTH, passwordSource, requireAdminPage } from "@/lib/admin/auth";
 import { getStoreMode } from "@/lib/cms/store";
 import PasswordForm from "./PasswordForm";
 
@@ -14,6 +14,7 @@ function formatDate(iso?: string) {
 }
 
 export default async function AdminSettingsPage() {
+  await requireAdminPage("/admin/settings");
   const source = await passwordSource();
   const mode = getStoreMode();
   const updated = formatDate(source.updatedAt);

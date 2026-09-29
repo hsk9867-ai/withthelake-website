@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { readStoredText, writeStoredText } from "@/lib/cms/store";
 
@@ -136,4 +137,13 @@ export async function isAuthenticated() {
 /** 서버 액션 안에서 호출: 로그인하지 않았으면 예외 */
 export async function requireAdmin() {
   if (!(await isAuthenticated())) throw new Error("로그인이 필요합니다.");
+}
+
+/**
+ * 관리자 페이지 컴포넌트 맨 앞에서 호출: 로그인하지 않았으면 로그인 화면으로 보냅니다.
+ * 레이아웃에서도 검사하지만, Next 는 레이아웃과 페이지를 병렬로 렌더링하므로
+ * 페이지 자체도 검사해야 미인증 응답에 페이지 내용이 섞여 나가지 않습니다.
+ */
+export async function requireAdminPage(next?: string) {
+  if (!(await isAuthenticated())) redirect(next ? `/admin/login?next=${encodeURIComponent(next)}` : "/admin/login");
 }
