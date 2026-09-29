@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://hsk9867-ai.github.io/withthelake-website/sitemap.xml
