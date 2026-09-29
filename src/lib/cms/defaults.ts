@@ -1,5 +1,9 @@
 import type { SiteContent } from "./types";
 
+/** 힐링로드 ON 오디오 원본 위치(treter.kr). 관리자에서 각 항목의 오디오를 새로 올리면 그 주소로 바뀝니다. */
+const HEALING_AUDIO_BASE = "https://treter.kr/healingroad/manager/upload_mp3/";
+const wav = (filename: string) => HEALING_AUDIO_BASE + encodeURIComponent(filename);
+
 /**
  * 기본 콘텐츠 (기획서 원고 기준).
  * 관리자에서 저장한 값은 `content/site-content.json` 에 쌓이고, 저장되지 않은 키는 여기 값이 쓰입니다.
@@ -855,34 +859,39 @@ export const DEFAULT_CONTENT: SiteContent = {
         label: "걷기 안내",
         description: "걷기의 효과와 올바른 방법을 안내해드려요",
         items: [
-          { emoji: "🚶‍♀️", title: "걷기 시작하기", description: "걷기의 의미와 효과, 호흡과 스트레칭, 걷기 명상 안내", src: "" },
-          { emoji: "🚶‍♂️", title: "맨발걷기 안내", description: "맨발걷기의 효과와 안전한 맨발걷기 가이드", src: "" },
-          { emoji: "🌳", title: "느티나무 삼십리길 안내", description: "강원도 철원군 화강 느티나무 삼십리길 소개", src: "" },
-          { emoji: "🌲", title: "군탄공원 안내", description: "강원도 철원군 군탄공원 및 맨발걷기길 소개", src: "" },
-          { emoji: "😄", title: "걷기 마무리하기", description: "힐링로드 ON을 이용해 주셔서 감사합니다", src: "" },
+          { emoji: "🚶‍♀️", title: "걷기 시작하기", description: "걷기의 의미와 효과, 호흡과 스트레칭, 걷기 명상 안내", src: wav("1.걷기안내.wav") },
+          { emoji: "🚶‍♂️", title: "맨발걷기 안내", description: "맨발걷기의 효과와 안전한 맨발걷기 가이드", src: wav("2.맨발걷기안내.wav") },
+          { emoji: "😄", title: "걷기 마무리하기", description: "힐링로드 ON을 이용해 주셔서 감사합니다. 기록과 설문 안내", src: wav("(기록_설문안내).wav") },
         ],
       },
       affirmations: {
         label: "긍정확언",
         description: "마음을 다독이는 따뜻한 메시지",
         items: [
-          { emoji: "🌳", title: "자기수용 1", description: "나는 있는 그대로의 나를 사랑하고 존중합니다.", src: "" },
-          { emoji: "🌳", title: "자기수용 2", description: "나의 모든 경험은 나를 성장시키는 소중한 자산입니다.", src: "" },
-          { emoji: "🌱", title: "성장 1", description: "나는 매일 새로운 가능성을 향해 나아갑니다.", src: "" },
-          { emoji: "🌱", title: "성장 2", description: "나는 모든 경험에서 배우고 성장합니다.", src: "" },
-          { emoji: "🏖", title: "자신감 1", description: "나는 나의 진정한 목소리를 당당하게 표현합니다.", src: "" },
-          { emoji: "🏖", title: "자신감 2", description: "나는 나의 강점과 재능을 온전히 발휘합니다.", src: "" },
-          { emoji: "🌫", title: "평화 1", description: "나는 나의 마음에 평화와 고요함을 초대합니다.", src: "" },
-          { emoji: "🌫", title: "평화 2", description: "나는 지금 이 순간에 온전히 머무르며, 나 자신을 치유합니다.", src: "" },
-          { emoji: "⛅", title: "감사", description: "나는 나의 삶에 주어진 모든 것에 감사합니다.", src: "" },
+          { emoji: "🌳", title: "자기수용 1", description: "나는 있는 그대로의 나를 사랑하고 존중합니다.", src: wav("1.나는있는그대로의 나를 사랑하고 존중합니다.wav") },
+          { emoji: "🌳", title: "자기수용 2", description: "나의 모든 경험은 나를 성장시키는 소중한 자산입니다.", src: wav("2. 나의 모든경험은 나르 성장시키는 소중한 자산입니다.wav") },
+          { emoji: "🌱", title: "성장 1", description: "나는 매일 새로운 가능성을 향해 나아갑니다.", src: wav("1.나는 매일 새로운 가능성을 향해 나아갑니다..wav") },
+          { emoji: "🌱", title: "성장 2", description: "나는 모든 경험에서 배우고 성장합니다.", src: wav("2.나는 모든 경험에서 배우고 성장합니다..wav") },
+          { emoji: "🏖", title: "자신감 1", description: "나는 나의 진정한 목소리를 당당하게 표현합니다.", src: wav("1.나는 나의 진정한 목소리를 당당하게 표현합니다.wav") },
+          { emoji: "🏖", title: "자신감 2", description: "나는 나의 강점과 재능을 온전히 발휘합니다.", src: wav("2. 나는 나의 강점과 재능을 온전히 발휘합니다.wav") },
+          { emoji: "🌫", title: "평화 1", description: "나는 나의 마음에 평화와 고요함을 초대합니다.", src: wav("1. 나는 나의 마음에 평화와 고요함을 초대합니다.wav") },
+          { emoji: "🌫", title: "평화 2", description: "나는 지금 이 순간에 온전히 머무르며, 나 자신을 치유합니다.", src: wav("2. 나는 지금 이 순간에 온전히 머무르며, 나 자신을 치유합니다.wav") },
+          { emoji: "⛅", title: "감사", description: "나는 나의 삶에 주어진 모든 것에 감사합니다.", src: wav("1.나는 나의 삶에 주어진 모든 것에 감사합니다.wav") },
         ],
       },
       trailGuides: {
         label: "길 안내",
         description: "전국의 힐링 산책로를 찾아보세요",
         items: [
-          { emoji: "🌳", title: "화강 느티나무 삼십리길", description: "강원도 철원군 화강 느티나무 삼십리길 맨발걷기 코스 안내", region: "강원 철원", distance: "3.0km", walkingTime: "약 50분", difficulty: "보통", src: "" },
-          { emoji: "🌲", title: "군탄공원 맨발걷기길", description: "강원도 철원군 군탄공원 맨발걷기길 코스 안내", region: "강원 철원", distance: "2.5km", walkingTime: "약 40분", difficulty: "쉬움", src: "" },
+          { emoji: "🌳", title: "화강 느티나무 삼십리길", description: "강원도 철원군 화강 느티나무 삼십리길 맨발걷기 코스 안내", region: "강원 철원", distance: "3.0km", walkingTime: "약 50분", difficulty: "보통", src: wav("3.길안내_1_화강 느티나무 삼십리길.wav") },
+          { emoji: "🌲", title: "군탄공원 맨발걷기길", description: "강원도 철원군 군탄공원 및 맨발걷기길 코스 안내", region: "강원 철원", distance: "2.5km", walkingTime: "약 40분", difficulty: "쉬움", src: wav("3.길안내_2_군탄공원맨발걷기길.wav") },
+          { emoji: "🌱", title: "춘천 공지천 산책로", description: "강원도 춘천시 공지천, 공지천 산책로, 봄내맨발로 길 안내", region: "강원 춘천", distance: "", walkingTime: "", difficulty: "쉬움", src: wav("_20250905.wav") },
+          { emoji: "🌲", title: "태백 지지리골 맨발걷기숲길", description: "태백 체험공원, 지지리골 맨발걷기숲길, 지지리골 자작나무숲 안내", region: "강원 태백", distance: "", walkingTime: "", difficulty: "보통", src: wav("_20251004.wav") },
+          { emoji: "🏛️", title: "경주 대릉원", description: "경주 대릉원(사적 제512호) 걷기 길 안내", region: "경북 경주", distance: "", walkingTime: "", difficulty: "쉬움", src: wav(" 대릉원 (20251107).wav") },
+          { emoji: "🌾", title: "경주 봉황대", description: "경주 노동동 봉황대 걷기길 안내", region: "경북 경주", distance: "", walkingTime: "", difficulty: "쉬움", src: wav(" 봉황대(20251107).wav") },
+          { emoji: "🏘️", title: "경주 황리단길", description: "경주 황남동 포석로 일대 황리단길 안내", region: "경북 경주", distance: "", walkingTime: "", difficulty: "쉬움", src: wav("(20251107).wav") },
+          { emoji: "🔭", title: "경주 첨성대", description: "경주 첨성대, 반월성, 계림 맨발걷기 길 안내", region: "경북 경주", distance: "", walkingTime: "", difficulty: "쉬움", src: wav(" 첨성대(20251107).wav") },
+          { emoji: "🌊", title: "경주 보문단지", description: "경주 보문단지, 보문호 안내", region: "경북 경주", distance: "", walkingTime: "", difficulty: "쉬움", src: wav(" 보문단지(20251107).wav") },
           { emoji: "🏞️", title: "소양강 맨발 산책로", description: "춘천시 소양강을 따라 걷는 평화로운 맨발 코스", region: "강원 춘천", distance: "2.5km", walkingTime: "약 40분", difficulty: "쉬움", src: "" },
           { emoji: "🏖️", title: "경포해변 맨발 워킹", description: "강릉시 경포해변의 모래사장을 걷는 해변 코스", region: "강원 강릉", distance: "2.8km", walkingTime: "약 45분", difficulty: "쉬움", src: "" },
         ],

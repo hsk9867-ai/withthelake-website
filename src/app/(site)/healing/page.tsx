@@ -68,14 +68,19 @@ export default async function HealingPage() {
                 <p className="mt-3 text-[17px] font-bold text-ink">{t.title}</p>
                 <p className="mt-1 text-[14px] leading-6 text-muted">{t.description}</p>
                 <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[13px]">
-                  <dt className="text-muted">지역</dt>
-                  <dd className="font-semibold text-ink">{t.region}</dd>
-                  <dt className="text-muted">거리</dt>
-                  <dd className="font-semibold text-ink">{t.distance}</dd>
-                  <dt className="text-muted">소요 시간</dt>
-                  <dd className="font-semibold text-ink">{t.walkingTime}</dd>
-                  <dt className="text-muted">난이도</dt>
-                  <dd className="font-semibold text-ink">{t.difficulty}</dd>
+                  {[
+                    ["지역", t.region],
+                    ["거리", t.distance],
+                    ["소요 시간", t.walkingTime],
+                    ["난이도", t.difficulty],
+                  ]
+                    .filter(([, v]) => v)
+                    .map(([k, v]) => (
+                      <div key={k} className="contents">
+                        <dt className="text-muted">{k}</dt>
+                        <dd className="font-semibold text-ink">{v}</dd>
+                      </div>
+                    ))}
                 </dl>
                 <a href="#audio" className="mt-4 inline-block text-[14px] font-semibold text-primary hover:underline">
                   {t.src ? "안내 음성 듣기 →" : "안내 음성 준비 중"}

@@ -124,10 +124,11 @@ export default function AudioGuide({ audio }: { audio: HealingContent["audio"] }
                   <span className="mt-0.5 block text-[14px] text-muted">{item.description}</span>
                   {trail && (
                     <span className="mt-1.5 flex flex-wrap gap-x-3 text-[12px] font-semibold text-accent-deep">
-                      <span>{trail.region}</span>
-                      <span>{trail.distance}</span>
-                      <span>{trail.walkingTime}</span>
-                      <span>난이도 {trail.difficulty}</span>
+                      {[trail.region, trail.distance, trail.walkingTime, trail.difficulty && `난이도 ${trail.difficulty}`]
+                        .filter(Boolean)
+                        .map((v, k) => (
+                          <span key={k}>{v}</span>
+                        ))}
                     </span>
                   )}
                 </span>
